@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400&family=Azeret+Mono:wght@200;300;400&display=swap');
+
+/* One projected space, one shared Milky Way. Pure white on black. */
+.vng-layout{position:absolute;inset:0;overflow:hidden;background:transparent!important;color:#fff}
+.vng-projected-stage{position:absolute;inset:0;z-index:3;overflow:hidden;pointer-events:none;background:transparent}
+.vng-projected-stage__dust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.vng-projected-stage__world{position:absolute;top:0;left:0;width:1280px;height:720px;transform-origin:0 0;pointer-events:none}
+.vng-projected-stage__editorial{position:absolute;display:flex;flex-direction:column;min-height:0;overflow:hidden;pointer-events:none;color:#fff;font-synthesis:none;-webkit-font-smoothing:antialiased}
+.vng-projected-stage__editorial-group{display:flex;flex:1;flex-direction:column;min-height:0;min-width:0;animation:vng-editorial-group-in .38s ease-out both}
+@keyframes vng-editorial-group-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.vng-projected-stage__editorial .vng-editorial-heading{flex:none;display:flex;flex-direction:column;gap:12px;min-width:0;margin:2px 0 21px}
+.vng-projected-stage__editorial .vng-editorial-heading__title{font:100 22px/1.22 'Jost',sans-serif;letter-spacing:.18em;color:#fff;text-transform:uppercase;white-space:nowrap}
+.vng-projected-stage__editorial .vng-editorial-heading__affiliation{display:flex;flex-direction:column;gap:5px;min-width:0}
+.vng-projected-stage__editorial .vng-editorial-heading__meta,
+.vng-projected-stage__editorial .vng-editorial-heading__meta .project-portal__glyph{font:200 11.8px/1.45 'Jost',sans-serif!important;letter-spacing:.02em!important;text-transform:none!important;color:#969696!important;white-space:nowrap}
+.vng-projected-stage__editorial .vng-editorial-heading__meta .project-portal__glint{color:#fff!important;text-shadow:0 0 7px rgba(255,255,255,.75)}
+.vng-projected-copy{flex:1;min-height:0;overflow:auto;overflow-x:hidden;scrollbar-width:none;font:300 14.1px/1.48 'Jost',sans-serif;letter-spacing:.012em;color:#fff;overflow-wrap:break-word}
+.vng-projected-copy::-webkit-scrollbar{display:none}
+.vng-projected-copy p{margin:0 0 15px;color:#fff}
+.vng-projected-copy strong,.vng-projected-copy em{color:#fff}
+.vng-projected-copy strong{font-weight:400}
+.vng-projected-copy .vng-reveal-word{opacity:0;filter:blur(3px);color:#fff;display:inline;will-change:opacity,filter}
+.vng-layout.is-editing .vng-projected-copy .vng-reveal-word{opacity:1!important;filter:none!important}
+.vng-projected-portal{position:absolute;inset:0;pointer-events:none}
+.vng-projected-image{position:absolute;top:0;left:0;transform-origin:0 0;pointer-events:none;backface-visibility:visible}
+.vng-projected-image img{display:block;width:100%;height:100%;object-position:center;opacity:1!important;filter:none!important;background:transparent!important}
+.vng-projected-portal__title{position:absolute;pointer-events:none;font-family:'Jost',sans-serif}
+.vng-projected-portal__title .project-portal__scan{font:100 18px/1.18 'Jost',sans-serif;letter-spacing:.26em;max-width:100%;color:#fff}
+.vng-projected-portal__title .project-portal__glyph{color:#969696!important}
+.vng-projected-portal__title .project-portal__glint{color:#fff!important;text-shadow:0 0 7px rgba(255,255,255,.75)}
+.vng-gallery{position:absolute;inset:0;z-index:4;padding:0;margin:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:none;background:transparent;pointer-events:auto}
+.vng-gallery::-webkit-scrollbar{display:none}
+
+/* In-page builder. Only neutral white and black are used. */
+.vng-edit-toggle{position:absolute;z-index:35;right:18px;top:18px;cursor:pointer;background:#000;color:#fff;border:1px solid #fff;padding:10px 15px;font:300 10px 'Azeret Mono',monospace;letter-spacing:.17em}
+.vng-editor{position:absolute;z-index:40;right:16px;top:66px;bottom:17px;width:min(420px,calc(100vw - 32px));display:flex;flex-direction:column;overflow:hidden;border:1px solid #fff;background:rgba(0,0,0,.975);box-shadow:0 15px 45px rgba(0,0,0,.9);font-family:'Azeret Mono',monospace;color:#fff}
+.vng-editor__header{display:flex;justify-content:space-between;align-items:start;padding:18px;border-bottom:1px solid rgba(255,255,255,.4);gap:10px}
+.vng-editor__header strong{display:block;letter-spacing:.13em;font-size:12px;font-weight:400}
+.vng-editor__header small{display:block;margin-top:8px;font-size:9px;letter-spacing:.1em;color:#fff}
+.vng-editor__header button{color:#fff;background:none;border:1px solid #fff;cursor:pointer;width:27px;height:27px;font-size:19px}
+.vng-editor__main-tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;flex:none;border-bottom:1px solid rgba(255,255,255,.5)}
+.vng-editor__main-tabs button{padding:15px 8px;color:#fff;background:#000;border:0;border-right:1px solid rgba(255,255,255,.4);cursor:pointer;font:400 10px 'Azeret Mono',monospace;letter-spacing:.07em}
+.vng-editor__main-tabs button.active{color:#fff;background:#252525;box-shadow:inset 0 -2px 0 #fff}
+.vng-editor__scroll{overflow:auto;flex:1;min-height:0;padding:15px 18px 27px;scrollbar-color:#fff #000}
+.vng-editor__text-view{display:flex;flex-direction:column;min-height:0}
+.vng-editor__text-view>.vng-editor__field{flex:1;display:flex;min-height:0}
+.vng-editor__text-view .vng-editor__manifesto{flex:1;min-height:210px;resize:none;line-height:1.55;font-size:13px;white-space:pre-wrap}
+.vng-editor__text-view>.vng-editor__help{flex:none}
+.vng-editor__section-label{display:flex;justify-content:space-between;align-items:center;margin:20px 0 12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.5);color:#fff;font:400 10px 'Azeret Mono',monospace;letter-spacing:.15em}
+.vng-editor__management{display:flex;gap:8px;margin:9px 0 13px}
+.vng-editor__management button,.vng-editor__reset{flex:1;padding:10px 8px;background:#080808;color:#fff;border:1px solid rgba(255,255,255,.5);cursor:pointer;font:400 9px 'Azeret Mono',monospace;letter-spacing:.07em}
+.vng-editor__management button:disabled{opacity:.35;cursor:not-allowed}
+.vng-editor__management button:hover:not(:disabled),.vng-editor__reset:hover{border-color:#fff}
+.vng-editor__tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 15px}
+.vng-editor__tabs button{max-width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,.4);background:#000;color:#fff;text-align:left;cursor:pointer;font:400 9px 'Azeret Mono',monospace;letter-spacing:.06em;overflow-wrap:anywhere}
+.vng-editor__tabs button.active{border-color:#fff;color:#fff;background:#252525}
+.vng-editor__field{display:flex;flex-direction:column;gap:7px;margin:12px 0;color:#fff;font-size:9px;letter-spacing:.14em}
+.vng-editor__field input,.vng-editor__field textarea,.vng-editor__field select{width:100%;padding:9px 10px;background:#000;border:1px solid rgba(255,255,255,.5);border-radius:0;outline:none;color:#fff;font:400 12px/1.5 'Jost',sans-serif;letter-spacing:0}
+.vng-editor__field textarea{resize:vertical;min-height:130px}
+.vng-editor__field input:focus,.vng-editor__field textarea:focus,.vng-editor__field select:focus{border-color:#fff}
+.vng-editor__geometry{display:grid;grid-template-columns:85px minmax(0,1fr) 64px;align-items:center;gap:7px;margin:10px 0;color:#fff;font-size:9px}
+.vng-editor__geometry input[type=range]{width:100%;min-width:0;accent-color:#fff}
+.vng-editor__geometry input[type=number]{width:100%;min-width:0;background:#000;border:1px solid rgba(255,255,255,.5);color:#fff;text-align:right;padding:6px;font:400 10px 'Azeret Mono',monospace}
+.vng-editor__reset{margin-top:15px;width:100%}
+.vng-editor__help{font:400 10px/1.6 'Jost',sans-serif;color:#fff;opacity:.8}
+.vng-editor__error{color:#fff;font-size:10px}
+@media(max-width:650px){.vng-editor{top:10px;right:10px;bottom:48px;width:min(420px,calc(100vw - 20px))}.vng-edit-toggle{top:auto;bottom:12px;right:12px;font-size:9px}}
+@media(prefers-reduced-motion:reduce){.vng-projected-stage__editorial-group{animation:none}.vng-projected-copy .vng-reveal-word{filter:none!important}}
+
+/* Match the untouched menu's VERLIS MOTION CAPTURE base-luminance exactly.
+   The left is free-floating typography: no box, dust border or frame. */
+.vng-projected-stage__editorial{background:none!important;border:0!important;
+ box-shadow:none!important;outline:0!important}
+.vng-projected-stage__editorial .vng-editorial-heading__title{color:#fff}
+.vng-projected-stage__editorial .vng-editorial-heading__contribution{
+ width:max-content!important;max-width:none!important;white-space:nowrap!important;
+ transform:scaleX(.88);transform-origin:left center;
+}
+.vng-projected-portal__static-title{color:#969696;font:100 18px/1.18 'Jost',sans-serif;
+ letter-spacing:.26em;text-transform:uppercase;white-space:nowrap}
+
+/* The same elliptical alpha feather as the HOME corridor thumbnail.
+   Mask the already-projected media plane, never the dust outline or title. */
+
+
+
+/* Protect caption legibility without flattening the source image or creating
+   a hard-edged card. The bottom of the image dissolves before the title. */
+.vng-projected-image{
+ z-index:1;
+ -webkit-mask-image:radial-gradient(ellipse 76% 70% at 50% 35%,#000 16%,rgba(0,0,0,.94) 42%,rgba(0,0,0,.52) 67%,transparent 100%);
+ mask-image:radial-gradient(ellipse 76% 70% at 50% 35%,#000 16%,rgba(0,0,0,.94) 42%,rgba(0,0,0,.52) 67%,transparent 100%);
+}
+.vng-projected-portal__title{
+ z-index:5;isolation:isolate;
+ text-shadow:0 1px 4px #000,0 0 12px rgba(0,0,0,.95);
+}
+
+.vng-projected-portal__title .project-portal__glyph,
+.vng-projected-portal__title .vng-projected-portal__static-title{
+ color:rgba(255,255,255,.94)!important;
+}
+
+/* Two-stage alpha feather: the outer ellipse removes hard image corners;
+   the vertical falloff hides any black strip already baked into the source
+   BEFORE it crosses the floating caption. No black caption backplate. */
+.vng-projected-image{
+ -webkit-mask-image:radial-gradient(ellipse 92% 94% at 50% 43%,#000 12%,rgba(0,0,0,.92) 39%,rgba(0,0,0,.65) 65%,transparent 100%);
+ mask-image:radial-gradient(ellipse 92% 94% at 50% 43%,#000 12%,rgba(0,0,0,.92) 39%,rgba(0,0,0,.65) 65%,transparent 100%);
+}
+.vng-projected-image img{
+ -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 39%,rgba(0,0,0,.86) 54%,rgba(0,0,0,.42) 68%,rgba(0,0,0,.08) 80%,transparent 91%);
+ mask-image:linear-gradient(to bottom,#000 0%,#000 39%,rgba(0,0,0,.86) 54%,rgba(0,0,0,.42) 68%,rgba(0,0,0,.08) 80%,transparent 91%);
+}
+
+/* Final film scene: scroll removes the whole projected composition before
+   the held thumbnail emerges. The same broad radial feather used by HOME. */
+.vng-projected-stage__editorial{will-change:transform,opacity}
+.vng-finale{position:absolute;inset:0;z-index:7;display:grid;place-items:center;
+ pointer-events:none;opacity:0;transform:translateY(calc((1 - var(--finale-progress))*75px));
+ transition:none;color:#fff}
+.vng-finale.is-visible{opacity:clamp(0,calc((var(--finale-progress) - .07)*2.6),1);
+ pointer-events:auto}
+.vng-finale__content{display:flex;flex-direction:column;align-items:center;
+ width:min(880px,79vw);max-width:calc(100% - 36px);gap:14px}
+.vng-finale__screen{width:100%;aspect-ratio:16/9;position:relative;isolation:isolate;
+ overflow:hidden;min-height:0}
+.vng-finale__preview{position:absolute;inset:0;width:100%;height:100%;
+ padding:0;overflow:hidden;border:0;background:transparent;color:#fff;
+ cursor:pointer;isolation:isolate}
+.vng-finale__thumbnail{position:absolute;inset:0;
+ -webkit-mask-image:radial-gradient(ellipse 74% 75% at 50% 50%,#000 20%,rgba(0,0,0,.9) 51%,transparent 100%);
+ mask-image:radial-gradient(ellipse 74% 75% at 50% 50%,#000 20%,rgba(0,0,0,.9) 51%,transparent 100%)}
+.vng-finale__thumbnail img{display:block;position:absolute;inset:0;width:100%;
+ height:100%;object-fit:contain;pointer-events:none}
+.vng-finale__thumbnail-ghost{filter:grayscale(1) contrast(1.12) brightness(.69) blur(1.25px);
+ opacity:.38;transition:opacity .55s cubic-bezier(.22,.65,.3,1)}
+.vng-finale__thumbnail-focus{filter:grayscale(1) contrast(1.08) brightness(.83);
+ opacity:.16;transition:opacity .72s cubic-bezier(.22,.65,.3,1)}
+.vng-finale__preview:is(:hover,:focus-visible) .vng-finale__thumbnail-ghost{opacity:0}
+.vng-finale__preview:is(:hover,:focus-visible) .vng-finale__thumbnail-focus{opacity:.86}
+.vng-finale__hover-sweep{position:absolute;inset:-35%;pointer-events:none;opacity:0;
+ transform:translateX(-140%) rotate(-12deg);
+ background:linear-gradient(95deg,transparent 44%,rgba(255,255,255,.13) 50%,transparent 56%);
+ transition:opacity .4s}
+.vng-finale__preview:is(:hover,:focus-visible) .vng-finale__hover-sweep{
+ opacity:1;animation:vng-finale-scanner 1.9s cubic-bezier(.22,.65,.3,1) both}
+@keyframes vng-finale-scanner{to{transform:translateX(140%) rotate(-12deg)}}
+.vng-finale__placeholder{position:absolute;inset:0;display:grid;place-items:center;
+ font:200 11px/1.6 'Azeret Mono',monospace;letter-spacing:.24em;
+ color:rgba(255,255,255,.66);text-align:center}
+.vng-finale__play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+ font:200 11px/1.2 'Azeret Mono',monospace;letter-spacing:.27em;
+ white-space:nowrap;opacity:.62;transition:opacity .45s,text-shadow .45s;
+ text-shadow:0 2px 10px #000}
+.vng-finale__preview:is(:hover,:focus-visible) .vng-finale__play{
+ opacity:1;text-shadow:0 0 16px rgba(255,255,255,.6)}
+.vng-finale__play span{font-size:14px}
+.vng-finale__video{position:absolute;inset:0;width:100%;height:100%;
+ display:block;object-fit:contain;background:transparent}
+.vng-finale__caption{margin:0;font:200 clamp(11px,1.1vw,15px)/1.45 'Jost',sans-serif;
+ letter-spacing:.11em;color:#fff;text-align:center}
+.vng-finale__subcaption{font:200 8px/1.5 'Azeret Mono',monospace;
+ letter-spacing:.27em;opacity:.65;text-align:center}
+.vng-editor__finale-view .vng-editor__field{margin:14px 0}
+.vng-editor__finale-view .vng-editor__field input[type=file]{font-size:10px}
+@media(max-width:650px){.vng-finale__content{width:92vw;gap:13px}
+ .vng-finale__caption{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.vng-finale__hover-sweep{animation:none!important}
+ .vng-finale__thumbnail-ghost,.vng-finale__thumbnail-focus{transition:none}}
+
+/* The footer is a distinct third editor mode, not a second-row tab. */
+.vng-editor__main-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
+.vng-editor__main-tabs button{min-width:0;font-size:9px;letter-spacing:.035em}
+.vng-editor__main-tabs button[aria-pressed="true"]{
+ background:#252525;box-shadow:inset 0 -2px 0 #fff
+}
+
+/* Preserve the full image rather than alpha-feathering away dark pixels.
+   Black matte restores coverage even for older uploads with transparent
+   black pixels; previously saved alpha cannot recreate source detail. */
+.vng-projected-image{
+ background:#000!important;
+ -webkit-mask-image:none!important;
+ mask-image:none!important;
+ opacity:1!important;
+ filter:none!important;
+}
+.vng-projected-image img{
+ background:#000!important;
+ -webkit-mask-image:none!important;
+ mask-image:none!important;
+ opacity:1!important;
+ filter:none!important;
+}
+.vng-finale__screen,.vng-finale__video{background:#000}
+.vng-finale__video{opacity:1!important;filter:none!important;mix-blend-mode:normal!important}
+.vng-finale__thumbnail{background:#000}
+.vng-finale__thumbnail-image{
+ opacity:1!important;filter:brightness(.56) grayscale(1);
+ transition:filter .65s cubic-bezier(.22,.65,.3,1);
+}
+.vng-finale__preview:is(:hover,:focus-visible) .vng-finale__thumbnail-image{
+ opacity:1!important;filter:brightness(1) grayscale(0)
+}
+.vng-finale__hover-sweep{display:none!important}
+.vng-finale__subcaption{display:none!important}
+
+/* Right-hand corridors belong to editorial IDs: they do not appear at the
+   boundary between stories. Once their first left-side word materializes,
+   they enter softly rather than popping into the previous story's ending. */
+.vng-projected-portal--word-linked{
+ animation:vng-word-linked-portal-in .5s ease-out both;
+}
+@keyframes vng-word-linked-portal-in{
+ from{opacity:0}to{opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+ .vng-projected-portal--word-linked{animation:none}
+}
+
+/* Same airy Workshop scroll invitation, but above the transparent gallery.
+   It remains non-interactive and vanishes with the first revealed word. */
+.vng-scroll-hint{position:absolute;z-index:9;left:50%;bottom:10%;
+ transform:translateX(-50%);display:flex;align-items:center;
+ flex-direction:column;gap:17px;pointer-events:none;color:#fff;
+ animation:vng-scroll-hint-arrive 1.4s .35s both;
+ transition:opacity .65s ease,filter .65s ease}
+.vng-scroll-hint span{font:200 10px/1.3 'Azeret Mono',monospace;
+ letter-spacing:.5em;animation:vng-scroll-hint-breathe 3s ease-in-out infinite}
+.vng-scroll-hint i{display:block;width:1px;height:44px;
+ background:linear-gradient(#fff,transparent)}
+.vng-scroll-hint.is-dismissed{opacity:0!important;filter:blur(4px)}
+@keyframes vng-scroll-hint-arrive{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+ .vng-scroll-hint,.vng-scroll-hint span{animation:none!important}
+}
+
+@keyframes vng-scroll-hint-breathe{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* The editor doesn't clip itself horizontally when image values or labels
+   are wider than the sidebar. The numerical fields remain independently sized. */
+.vng-editor,.vng-editor__scroll,.vng-editor__artifact-config{min-width:0;box-sizing:border-box}
+.vng-editor__scroll{overflow-x:hidden;overflow-y:auto}
+.vng-editor__geometry{grid-template-columns:minmax(50px,75px) minmax(0,1fr) minmax(0,68px)}
+.vng-editor__geometry input{max-width:100%;box-sizing:border-box}
+.vng-projected-stage__world{overflow:visible}
+.vng-projected-portal{overflow:visible;z-index:1}
+.vng-projected-titles{position:absolute;inset:0;z-index:8;overflow:visible;pointer-events:none}
+.vng-projected-titles>.vng-projected-portal__title{
+ position:absolute;max-width:none;overflow:visible;z-index:1;
+ animation:vng-word-linked-portal-in .5s ease-out both;
+}
+/* A narrow alpha fade only at the four outermost edges.
+   The black image interior stays opaque; the galaxy does not show through
+   the photograph, and no forced letterbox or dark background is added. */
+.vng-projected-image{
+ background:#000!important;
+ -webkit-mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent),
+  linear-gradient(to bottom,transparent,#000 3%,#000 97%,transparent)!important;
+ mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent),
+  linear-gradient(to bottom,transparent,#000 3%,#000 97%,transparent)!important;
+ -webkit-mask-composite:source-in;
+ mask-composite:intersect;
+ overflow:visible;
+}
+.vng-projected-image img{
+ -webkit-mask-image:none!important;mask-image:none!important;
+ background:transparent!important;opacity:1!important;filter:none!important;
+ object-fit:contain;
+}
+
+/* Independent 3D images rotate about their own center, not the top-left
+   pivot used by the old matrix3d projection. */
+.vng-projected-image{transform-origin:50% 50%!important}
+
+/* Free coplanar media: do not create an artificial empty border. */
+.vng-projected-image{transform-origin:0 0!important;overflow:visible!important;
+ -webkit-mask-image:none!important;mask-image:none!important;background:transparent!important}
+.vng-projected-image img{background:transparent!important}

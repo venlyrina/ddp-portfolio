@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400&family=Jost:wght@100;200;300;400&family=Outfit:wght@100;200;300;400&family=Michroma&family=IBM+Plex+Mono:wght@300;400&family=Azeret+Mono:wght@200;300&family=Space+Mono&display=swap');
+
+html, body, #root { margin: 0; width: 100%; height: 100%; background: #000; }
+body { overflow: hidden; }
+.site { position: relative; height: 100vh; height: 100dvh; width: 100%; overflow: hidden; background: #000; }
+.cosmic-atmosphere { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.cosmic-atmosphere::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 35% 24% at 58% 48%, rgba(235,235,235,.042), transparent 90%),
+    radial-gradient(ellipse 60% 70% at 50% 50%, transparent 38%, rgba(0,0,0,.65) 100%);
+}
+.logo {
+  position: absolute;
+  top: 0;
+  left: 18px;
+  width: 310px;
+  max-width: 52vw;
+  height: auto;
+  z-index: 10;
+  display: block;
+}
+.hero-copy {
+  position: absolute;
+  z-index: 2;
+  top: 49%;
+  left: clamp(24px, 5.5vw, 100px);
+  transform: translateY(-50%);
+  color: #ededed;
+  pointer-events: none;
+}
+.hero-copy h1 {
+  font: 500 clamp(50px, 8vw, 145px)/.94 'Barlow Condensed', Impact, sans-serif;
+  letter-spacing: .075em;
+  margin: 0;
+}
+.hero-copy p {
+  margin: 21px 0 0 3px;
+  color: #858585;
+  font: 400 clamp(10px, .85vw, 12px)/1.4 Arial, sans-serif;
+  letter-spacing: .06em;
+}
+@media (max-width: 700px) {
+  .hero-copy { left: 7vw; top: 56%; }
+  .hero-copy h1 { font-size: clamp(44px, 12vw, 90px); }
+  .hero-copy p { max-width: 240px; }
+}
+@media (prefers-reduced-motion: reduce) { .cosmic-atmosphere { transform: none; } }
+
+/* Minimal monochrome accretion layer and collapsible in-browser tuning. */
+.bh-canvas { position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
+.bh-tuner { position:absolute; right:18px; bottom:18px; z-index:20; width:min(302px, calc(100vw - 36px)); color:#dedede; font:11px/1.4 Arial,sans-serif; letter-spacing:.06em; }
+.bh-tuner__toggle, .bh-tuner__reset { width:100%; cursor:pointer; color:#eee; background:rgba(0,0,0,.9); border:1px solid #666; padding:10px 12px; text-align:left; letter-spacing:.12em; }
+.bh-tuner__controls { background:rgba(0,0,0,.93); border:1px solid #444; border-top:0; padding:12px; max-height:65vh; overflow:auto; }
+.bh-tuner__row { display:grid; grid-template-columns:68px 1fr 46px; gap:9px; align-items:center; margin-bottom:11px; text-transform:uppercase; }
+.bh-tuner__row input { width:100%; min-width:0; accent-color:#eee; }
+.bh-tuner__row output { text-align:right; font-variant-numeric:tabular-nums; }
+.bh-tuner__reset { font-size:10px; margin-top:5px; border-color:#333; }
+
+/* Independent, directly draggable typography. Coordinates use viewport %. */
+.hero-title,.hero-subtitle {
+  position:absolute;z-index:5;transform:translateY(-50%);margin:0;
+  width:max-content;max-width:94vw;cursor:grab;touch-action:none;user-select:none;
+}
+.hero-title:active,.hero-subtitle:active { cursor:grabbing; }
+.hero-title {
+  color:#f5f5f5;font-family:'Barlow Condensed',Impact,sans-serif;
+  font-weight:500;line-height:.94;white-space:nowrap;
+}
+.hero-subtitle {
+  color:#e6e6e6;font-family:Arial,sans-serif;line-height:1.4;
+  letter-spacing:.06em;white-space:normal;
+}
+
+/* Editorial typography: hairline, no RGB splitting or particle effects. */
+.hero-title {
+  font-weight:100;line-height:1.1;color:#eef0f4;
+  white-space:nowrap;isolation:isolate;
+  animation:title-breathe 6.4s ease-in-out infinite;
+  will-change:translate;
+}
+.hero-title::after {
+  content:attr(data-text);position:absolute;inset:0;
+  font:inherit;letter-spacing:inherit;line-height:inherit;
+  pointer-events:none;color:transparent;
+  background:linear-gradient(105deg,transparent 41%,rgba(255,255,255,.15) 48%,rgba(255,255,255,.96) 50%,rgba(255,255,255,.15) 52%,transparent 59%);
+  background-size:260% 100%;background-position:120% 0;
+  -webkit-background-clip:text;background-clip:text;
+  opacity:var(--sheen,.25);
+  animation:title-sheen var(--sheen-period,8s) linear infinite;
+}
+.hero-title::before {
+  content:'';position:absolute;width:2px;height:2px;right:11%;top:12%;
+  box-shadow:0 0 0 .3px #fff, 0 0 6px 1px #fff;
+  opacity:0;pointer-events:none;
+  animation:crystal-blink 11s steps(1,end) infinite;
+}
+.hero-subtitle {font-weight:300;text-transform:uppercase;min-width:20ch;text-align:center;color:#eff0f4;}
+@keyframes title-breathe {0%,100% {filter:brightness(1)} 50% {filter:brightness(calc(1 + var(--breath,.05)))}}
+@keyframes title-sheen {0%,64% {background-position:120% 0} 80%,100% {background-position:-120% 0}}
+@keyframes crystal-blink {0%,67%,68%,100%{opacity:0}67.35%,67.6%{opacity:var(--glint,.2)}}
+@media (prefers-reduced-motion:reduce){
+ .hero-title,.hero-title::after,.hero-title::before{animation:none!important}
+}
+
+/* Cosmic-to-architecture convergence. No camera flight or extra particle engine. */
+.cosmic-stage{position:absolute;inset:0;z-index:1;transform-origin:50% 53%}
+.scene-morph .cosmic-stage{animation:cosmic-converge 2.4s cubic-bezier(.43,.02,.65,1) forwards;pointer-events:none}
+.scene-morph .hero-title,.scene-morph .hero-subtitle{pointer-events:none;animation:hero-dismiss .65s ease-in forwards}
+.scene-morph .stellar-tuner{visibility:hidden}
+.morph-shear{position:absolute;inset:0;z-index:13;pointer-events:none;overflow:hidden;opacity:0;animation:shear-envelope 2.4s ease-in-out forwards}
+.morph-shear i{position:absolute;left:50%;top:53%;width:1px;height:125vmax;background:linear-gradient(to bottom,transparent,rgba(234,244,255,.28),transparent);transform-origin:50% 50%;transform:translate(-50%,-50%) rotate(var(--angle,20deg)) scaleY(.2);animation:shear-line 2.4s cubic-bezier(.23,.76,.33,1) forwards}
+.morph-shear i:nth-child(1){--angle:13deg;animation-delay:0s}
+.morph-shear i:nth-child(2){--angle:41deg;animation-delay:.08s}
+.morph-shear i:nth-child(3){--angle:-18deg;animation-delay:.14s}
+.morph-shear i:nth-child(4){--angle:70deg;animation-delay:.2s}
+.morph-shear i:nth-child(5){--angle:-49deg;animation-delay:.26s}
+@keyframes cosmic-converge{0%{opacity:1;transform:scale(1);filter:none}40%{opacity:1;transform:scale(1.035);filter:contrast(1.5)}76%{opacity:.48;transform:scale(.38);filter:contrast(1.8)}100%{opacity:0;transform:scale(.08);filter:blur(5px)}}
+@keyframes hero-dismiss{to{opacity:0;filter:blur(3px)}}
+@keyframes shear-envelope{0%,10%,95%,100%{opacity:0}30%,65%{opacity:1}}
+@keyframes shear-line{0%{opacity:0;transform:translate(-50%,-50%) rotate(var(--angle)) scaleY(.12)}40%{opacity:1;transform:translate(-50%,-50%) rotate(var(--angle)) scaleY(.8)}100%{opacity:0;transform:translate(-50%,-50%) rotate(var(--angle)) scaleY(1.6)}}
+@media(prefers-reduced-motion:reduce){.scene-morph .cosmic-stage,.scene-morph .hero-title,.scene-morph .hero-subtitle,.morph-shear,.morph-shear i{animation:none!important}.scene-morph .cosmic-stage{opacity:0}.scene-morph .hero-title,.scene-morph .hero-subtitle{opacity:0}}
+
+/* Clearly readable convergence before revealing the interwoven maze. */
+.scene-morph .corridor {opacity:0;visibility:visible;animation:maze-arrive 2.4s linear forwards;transition:none}
+.scene-corridor .corridor {opacity:1;visibility:visible;transition:none}
+.scene-morph .cosmic-stage {animation:cosmic-implode 2.4s cubic-bezier(.4,0,.65,1) forwards}
+.scene-morph::after {
+ content:'';position:absolute;left:50%;top:53%;z-index:12;pointer-events:none;
+ width:36vmin;height:36vmin;border-radius:50%;
+ border:1px solid rgba(238,246,255,.7);
+ box-shadow:0 0 18px rgba(216,235,255,.2),inset 0 0 16px rgba(216,235,255,.15);
+ transform:translate(-50%,-50%) scale(3.4);
+ animation:convergence-ring 2.4s cubic-bezier(.4,0,.75,1) forwards;
+}
+@keyframes cosmic-implode {
+ 0%,12%{opacity:1;transform:scale(1);filter:none}
+ 45%{opacity:1;transform:scale(.84);filter:contrast(1.3)}
+ 78%{opacity:.66;transform:scale(.22);filter:contrast(2)}
+ 94%,100%{opacity:0;transform:scale(.025);filter:blur(3px)}
+}
+@keyframes convergence-ring {
+ 0%,12%{opacity:0;transform:translate(-50%,-50%) scale(3.4)}
+ 25%{opacity:.8}
+ 70%{opacity:1;transform:translate(-50%,-50%) scale(.4)}
+ 88%{opacity:.95;transform:translate(-50%,-50%) scale(.015)}
+ 100%{opacity:0;transform:translate(-50%,-50%) scale(0)}
+}
+@keyframes maze-arrive {0%,65%{opacity:0}88%{opacity:.6}100%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.scene-morph .corridor{animation:none;opacity:1}.scene-morph::after{animation:none;display:none}}
+
+/* Particle-led morph overrides the earlier CSS shrink / convergence-ring prototype. */
+.scene-morph .cosmic-stage{animation:none!important;transform:none!important;filter:none!important;opacity:1!important;pointer-events:none}
+.scene-morph .cosmic-atmosphere{animation:milkyway-dim 2.4s linear forwards}
+.scene-morph::after{display:none!important}
+.scene-morph .morph-shear{display:none!important}
+@keyframes milkyway-dim{0%,14%{opacity:1}60%{opacity:.32}85%,100%{opacity:0}}
+
+/* Milky Way stays behind all four frames, while core and rapier collapse. */
+.scene-morph .cosmic-atmosphere{animation:none!important;opacity:1!important}
+.scene-corridor .cosmic-atmosphere{opacity:1}
+.scene-corridor .corridor{z-index:14}
+
+/* V2: no more crossfade between full scenes. The corridor canvas is fully
+   transparent until the shared dust physically reaches its four edge targets. */
+.scene-morph .corridor,
+.scene-corridor .corridor {
+  opacity:1!important;visibility:visible!important;
+  animation:none!important;transition:none!important;
+  background:transparent!important;
+}
+.scene-morph .cosmic-stage{
+  animation:none!important;transform:none!important;
+  filter:none!important;opacity:1!important;
+}
+.scene-morph .cosmic-atmosphere{
+  opacity:1!important;animation:none!important;
+}
+
+/* Project entry is its own cinematic scene. Keep the existing Three.js Milky Way,
+   remove the entire corridor, dust frames and stellar event (not a tinted modal). */
+.scene-entry .corridor,.scene-project-detail .corridor{display:none!important}
+.scene-entry .cosmic-stage,.scene-project-detail .cosmic-stage{display:none!important}
+.scene-entry .hero-title,.scene-entry .hero-subtitle,
+.scene-project-detail .hero-title,.scene-project-detail .hero-subtitle{display:none!important}
+.scene-entry .cosmic-atmosphere,.scene-project-detail .cosmic-atmosphere{opacity:1!important}
+
+/* Project entrance: shared Milky Way remains mounted, but the old corridor
+   cannot flash through before the destination is ready. No whiteout/glow. */
+.project-route-fade{position:absolute;inset:0;z-index:110;
+ background:#000;pointer-events:auto;will-change:opacity}
+.project-route-fade--out{animation:project-menu-dissolve .28s ease-in forwards}
+.project-route-fade--in{animation:project-page-emerge .55s cubic-bezier(.22,.7,.3,1) forwards}
+@keyframes project-menu-dissolve{from{opacity:0}to{opacity:1}}
+@keyframes project-page-emerge{from{opacity:1}to{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+ .project-route-fade--out,.project-route-fade--in{animation:none}
+ .project-route-fade--out{opacity:1}
+ .project-route-fade--in{opacity:0}
+}

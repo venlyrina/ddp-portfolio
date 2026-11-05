@@ -1,0 +1,12 @@
+/* Shared, byte-for-byte scanner styling from ProjectPortals.css.
+   White glints are per-glyph opacity overlays driven by ScanTitle.jsx,
+   not a CSS gradient flying over the whole button. */
+.project-portal__scan{position:relative;display:block;width:max-content;max-width:100%;
+ white-space:nowrap;overflow:visible;color:#969696;
+ font:100 18px/1.18 'Jost','Outfit',sans-serif;
+ letter-spacing:.26em;text-transform:uppercase;
+ -webkit-font-smoothing:antialiased;font-synthesis:none}
+.project-portal__glyph{position:relative;display:inline-block;white-space:pre;color:#969696}
+.project-portal__glint{position:absolute;inset:0;pointer-events:none;
+ display:block;white-space:pre;color:#fff;opacity:0}
+@media(prefers-reduced-motion:reduce){.project-portal__glint{opacity:0!important}}

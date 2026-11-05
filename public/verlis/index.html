@@ -1,0 +1,436 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="VERLIS: Training-Free Latent Supervisor for Robust Human Mesh Recovery."/><title>VERLIS · VENSHALOR</title><script>
+if(new URLSearchParams(location.search).get('embedded')==='1' && window.parent!==window){
+ document.documentElement.classList.add('v-shared-stars');
+}
+</script><style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+:root{font-family:Inter,Arial,sans-serif;color:#fff;background:#000;font-synthesis:none;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#000;color:#fff}a{color:inherit}button{font:inherit}[hidden]{display:none!important}
+/* Direct Figma measurements: 1440-wide frame, 210px gutters, 1020px content,
+   70px top padding, and 30px vertical spacing between top-level layers. */
+.v-page{width:1020px;max-width:calc(100% - 48px);margin:0 auto;padding:70px 0 160px}
+.v-hero,.v-article{display:flex;flex-direction:column;gap:30px;align-items:stretch}
+.v-hero{margin-bottom:30px}
+.v-brand{display:block;height:16px;font-size:13px;line-height:1.2;letter-spacing:3.2px;font-weight:700;text-decoration:none}
+.v-overline,.v-hero h1,.v-subtitle,.v-affiliation,.v-heading,.v-subheading,.v-paragraph,.v-quote,.v-closing,.v-next{margin:0;overflow-wrap:break-word}
+.v-overline{text-align:center;color:#858585;font-size:11px;letter-spacing:2.5px;line-height:1.4;font-weight:400}
+.v-hero h1{text-align:center;font-size:136px;line-height:1.05;letter-spacing:18px;font-weight:900}
+.v-subtitle{text-align:center;font-size:27px;line-height:1.36;font-weight:400;letter-spacing:0}
+.v-affiliation{text-align:center;color:#858585;font-size:14px;line-height:1.5;font-weight:400}
+.v-heading{font-size:38px;line-height:1.2;font-weight:900;scroll-margin-top:30px}
+.v-heading--explore{font-size:32px;line-height:1.25;font-weight:400}
+.v-paragraph{font-size:17px;line-height:1.6;font-weight:400;color:#fff}
+.v-paragraph strong{font-weight:700}
+.v-emphasis{font-weight:700;font-size:22px}
+.v-paragraph__break{display:block}
+.v-quote{font-size:27px;line-height:1.3;font-weight:700;border:0;padding:0}
+.v-quote--soft{font-size:22px;font-weight:500;line-height:1.6}
+.v-subheading{font-size:25px;line-height:1.6;font-weight:800}
+.v-closing{font-size:31px;line-height:1.25;font-weight:700}
+.v-next{font-size:22px;line-height:1.6}
+.v-next:last-child{font-size:17px}
+.v-diagram{margin:0;width:100%}
+.v-diagram__stage{position:relative;height:var(--figure-height);width:100%;display:flex;align-items:center;justify-content:center;background:#0b0b0b;border:1px solid #303030;overflow:hidden}
+.v-diagram img{max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain}
+.v-diagram__empty{width:100%;height:100%;background:#0b0b0b}
+/* Exactly three footage rows x two video columns, 500px per slot and a 20px gutter at 1440px canvas; one shared control each row. */
+.v-demo{width:100%;display:flex;flex-direction:column;gap:30px}
+.v-demo__footage{width:100%;position:relative}
+.v-demo__pair{display:flex;align-items:center;justify-content:center;gap:20px;width:100%;min-height:1px}
+
+.v-video{position:relative;flex:none;min-width:0;max-width:100%;background:#0e0e0e;border:1px solid #2e2e2e;overflow:hidden}
+.v-video video{width:100%;height:100%;display:block;object-fit:contain;background:#000}
+.v-video__pending{position:absolute;inset:0;background:#0e0e0e}
+.v-demo__play{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);color:#fff;border:1px solid #707070;background:#000d;cursor:pointer;padding:9px 20px;min-width:70px;font-size:12px;letter-spacing:.07em;z-index:3}
+.v-demo__play:hover{background:#303030;border-color:#fff}
+.v-demo__play:focus-visible{outline:2px solid white;outline-offset:2px}
+.v-media-toggle{position:fixed;top:20px;right:20px;z-index:15;border:1px solid #404040;background:#080808f0;color:#aaa;font-size:10px;letter-spacing:.14em;padding:9px 12px;cursor:pointer}
+.v-media-toggle:hover,.v-media-toggle[aria-pressed="true"]{border-color:#fff;color:#fff}
+.v-media-helper{position:fixed;z-index:20;top:58px;right:20px;max-width:min(340px,calc(100vw - 40px));background:#0e0e0e;color:#ccc;border:1px solid #444;padding:13px;font-size:12px;line-height:1.5}
+.v-upload{display:none;position:absolute;top:9px;right:9px;z-index:7;background:#000e;color:#fff;border:1px solid #999;cursor:pointer;padding:9px;font-size:10px;letter-spacing:.1em}
+.v-upload input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer}
+.v-editing .v-upload:not([hidden]){display:block}
+.v-editing .v-diagram__stage{outline:1px dashed #aaa}
+@media(max-width:1080px){.v-page{max-width:calc(100% - 44px)}.v-hero h1{font-size:clamp(64px,10vw,136px);letter-spacing:clamp(5px,1.25vw,18px)}.v-subtitle{font-size:clamp(18px,2.1vw,27px)}}
+@media(max-width:650px){.v-page{max-width:calc(100% - 32px);padding:70px 0 90px}.v-hero,.v-article{gap:24px}.v-hero{margin-bottom:24px}.v-hero h1{font-size:clamp(49px,13vw,80px);letter-spacing:.07em}.v-overline{font-size:10px}.v-heading{font-size:30px}.v-paragraph{font-size:16px}.v-subheading{font-size:22px}.v-quote{font-size:22px}.v-diagram__stage{height:auto;aspect-ratio:1.5}.v-demo__pair{gap:8px}.v-demo__play{bottom:7px;padding:7px 11px}.v-media-toggle{top:10px;right:10px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.v-heading--regular{font-weight:400}.v-subheading--mhr{font-weight:900}.v-green{color:#46d6a0}.v-orange{color:#f7931e}.v-red{color:red}.v-purple{color:#662d91}
+
+
+/* Compact typography setting: 75% of the prior VERLIS page scale. */
+.v-brand{font-size:9.75px;letter-spacing:2.4px;height:auto}
+.v-overline{font-size:8.25px;letter-spacing:1.875px}
+.v-hero h1{font-size:102px;letter-spacing:13.5px}
+.v-subtitle{font-size:20.25px}
+.v-affiliation{font-size:10.5px}
+.v-heading{font-size:28.5px}
+.v-heading--explore{font-size:24px}
+.v-paragraph{font-size:12.75px}
+.v-emphasis{font-size:16.5px}
+.v-quote{font-size:20.25px}
+.v-quote--soft{font-size:16.5px}
+.v-subheading{font-size:18.75px}
+.v-closing{font-size:23.25px}
+.v-next{font-size:16.5px}
+.v-next:last-child{font-size:12.75px}
+
+.v-demo__transport{width:100%;display:flex;align-items:center;gap:12px;margin-top:10px;min-width:0;color:#bbb}
+.v-demo__play{position:static;left:auto;bottom:auto;transform:none;flex:0 0 auto;min-width:42px;height:34px;padding:4px 10px}
+.v-demo__seek{flex:1 1 auto;min-width:40px;height:18px;cursor:pointer;accent-color:#eee;background:transparent}
+.v-demo__seek:disabled{opacity:.35;cursor:not-allowed}
+.v-demo__time{flex:0 0 auto;font:400 10px/1.2 Inter,Arial,sans-serif;color:#aaa;font-variant-numeric:tabular-nums}
+
+.v-video video{object-fit:contain;object-position:center}
+@media(max-width:1080px){.v-hero h1{font-size:clamp(48px,7.5vw,102px);letter-spacing:clamp(3.75px,.94vw,13.5px)}.v-subtitle{font-size:clamp(13.5px,1.575vw,20.25px)}}
+@media(max-width:650px){.v-hero h1{font-size:clamp(36.75px,9.75vw,60px);letter-spacing:.0525em}.v-heading{font-size:22.5px}.v-paragraph{font-size:12px}.v-subheading{font-size:16.5px}.v-quote{font-size:16.5px}.v-demo__transport{gap:8px}.v-demo__time{font-size:9px}.v-demo__play{height:30px;min-width:35px}}
+
+
+/* Click any piece of research text to type. No editor toolbar or layout shift. */
+.v-inline-edit{outline:none;cursor:text;white-space:pre-wrap;overflow-wrap:anywhere}
+.v-inline-edit:focus{outline:1px dotted #555;outline-offset:3px}
+.v-zoom-trigger{position:absolute;z-index:6;left:10px;top:10px;display:grid;place-items:center;
+ width:34px;height:34px;border:1px solid #777;background:rgba(0,0,0,.82);color:#fff;
+ font:400 17px/1 Inter,Arial,sans-serif;cursor:pointer}
+.v-zoom-trigger:hover,.v-zoom-trigger:focus-visible{border-color:#fff;background:#222}
+.v-zoom-dialog{border:1px solid #666;background:#050505;color:#fff;padding:46px 16px 16px;
+ width:min(96vw,1600px);max-width:96vw;max-height:96vh;box-sizing:border-box}
+.v-zoom-dialog::backdrop{background:rgba(0,0,0,.94)}
+.v-zoom-dialog__close{position:absolute;top:8px;right:10px;display:grid;place-items:center;
+ height:30px;width:30px;color:#fff;background:#111;border:1px solid #666;cursor:pointer;font-size:20px}
+.v-zoom-dialog__media{display:block;max-width:100%;max-height:calc(96vh - 82px);width:auto;height:auto;
+ object-fit:contain;margin:0 auto;background:#000}
+.v-zoom-dialog__message{color:#bbb;font-size:13px;text-align:center}
+@media(max-width:650px){.v-zoom-trigger{height:30px;width:30px;left:7px;top:7px}}
+
+
+/* All destinations share the parent's SINGLE CosmicAtmosphere canvas.
+   VERLIS content is still a static document; no parallax or moving diagrams. */
+html.v-shared-stars,html.v-shared-stars body,html.v-shared-stars .v-page{
+ background:transparent!important;
+}
+html.v-shared-stars .v-diagram__stage,
+html.v-shared-stars .v-diagram__empty{
+ background:transparent!important;
+}
+html.v-shared-stars .v-hero,html.v-shared-stars .v-article,
+html.v-shared-stars .v-heading,html.v-shared-stars .v-paragraph,
+html.v-shared-stars .v-diagram,html.v-shared-stars .v-diagram img{
+ transform:none!important;animation:none!important;
+}
+html.v-shared-stars .v-diagram img{filter:none!important;opacity:1!important}
+</style></head><body><main class="v-page" id="top"><header class="v-hero"><p class="v-overline">COMPUTER VISION RESEARCH</p><h1>VERLIS</h1><p class="v-subtitle">Training-Free Latent Supervisor for Robust Human Mesh Recovery</p><p class="v-affiliation">Started September 16, 2026 · Solo Project · Unfinished</p></header><article class="v-article"><h2 id="section-0" class="v-heading">The Problem</h2>
+<p class="v-paragraph">The strongest HMR methods today arguably belong to two factions: Single-Frame vs. Temporal Transformers.</p>
+<p class="v-paragraph">Single-frame models can be incredibly sharp when visual evidence is clear, but become fragile under uncertainty without temporal information to rescue them. Temporal Transformers have that advantage, but often end up manipulating sequences of tokens and regressing toward ugly, averaged-out solutions instead of actually looking at what happened. Sure, that might be good for MPJPE. But we're doing motion capture, and those are not the same thing. The power of a sword slash cannot be compressed into a millimeter-level error metric and call it “pass”.</p>
+<p class="v-paragraph v-emphasis">Unacceptable!</p>
+<p class="v-paragraph">VERLIS exists for a divine purpose - minimize that trade-off: Temporal Consistency vs. Local Fidelity. Don't touch what was already right just because it doesn't satisfy some loss function. Just repair what's truly uncertain.</p>
+<figure class="v-diagram" data-figure="official-implementation" style="--figure-height:677px"><div class="v-diagram__stage"><img src="../assets/media/diagram%20dark%20mode.png" alt="VERLIS Official Implementation" loading="lazy"/><div class="v-diagram__empty" hidden></div></div></figure>
+<p class="v-paragraph">I use SAM 3D Body as a powerful single-image HMR foundation, then build a Latent Supervisor around it to detect failure and selectivity recover the incomplete motion.</p>
+<h2 id="section-7" class="v-heading">Results</h2>
+<p class="v-paragraph">On my stress test, VERLIS show huge improvement to vanilla SAM 3D Body under visual degrading, recover unusual pose while preserving local motion fidelity at clear frames.</p>
+<section class="v-demo" aria-label="Three footage comparisons">
+<div class="v-demo__footage" data-footage="combat"><div class="v-demo__pair"><div class="v-video" data-slot="combat-left"><video muted playsinline preload="metadata" src="../assets/media/vergil_2.mp4" aria-label="Comparison video"></video><div class="v-video__pending" hidden aria-label="Video unavailable"></div></div><div class="v-video" data-slot="combat-right"><video muted playsinline preload="metadata" src="../assets/media/mtvtcb%20joint%20state.mp4" aria-label="Comparison video"></video><div class="v-video__pending" hidden aria-label="Video unavailable"></div></div></div><div class="v-demo__transport"><button class="v-demo__play" type="button" data-row-play aria-label="Play footage 1">▶</button><input type="range" class="v-demo__seek" data-row-seek aria-label="Seek footage 1" min="0" max="1000" step="1" value="0" /><span class="v-demo__time" data-row-time>0:00 / 0:00</span></div></div>
+<div class="v-demo__footage" data-footage="devil-may-cry"><div class="v-demo__pair"><div class="v-video" data-slot="devil-may-cry-left"><video muted playsinline preload="metadata" src="../assets/media/540kick_1.mp4" aria-label="Comparison video"></video><div class="v-video__pending" hidden aria-label="Video unavailable"></div></div><div class="v-video" data-slot="devil-may-cry-right"><video muted playsinline preload="metadata" src="../assets/media/540kickjointate_1.mp4" aria-label="Comparison video"></video><div class="v-video__pending" hidden aria-label="Video unavailable"></div></div></div><div class="v-demo__transport"><button class="v-demo__play" type="button" data-row-play aria-label="Play footage 2">▶</button><input type="range" class="v-demo__seek" data-row-seek aria-label="Seek footage 2" min="0" max="1000" step="1" value="0" /><span class="v-demo__time" data-row-time>0:00 / 0:00</span></div></div>
+<div class="v-demo__footage" data-footage="footage-3"><div class="v-demo__pair"><div class="v-video" data-slot="footage-3-left"><video muted playsinline preload="metadata" src="../assets/media/ufc3_1.mp4" aria-label="Comparison video"></video><div class="v-video__pending" hidden aria-label="Video unavailable"></div></div></div><div class="v-demo__transport"><button class="v-demo__play" type="button" data-row-play aria-label="Play footage 3">▶</button><input type="range" class="v-demo__seek" data-row-seek aria-label="Seek footage 3" min="0" max="1000" step="1" value="0" /><span class="v-demo__time" data-row-time>0:00 / 0:00</span></div></div></section>
+<h2 id="section-11" class="v-heading">But at the start...</h2>
+<p class="v-paragraph">Like everyone else, I initially tried patching single-image HMR from both ends. Segmentation, tracking, even Stable Diffusion for Input. Kalman filters, Temporal Transformers, Factor Graphs, and countless heuristics for output. Months of work for nothing. But it make me stop a moment and make a quite difference approach in HMR: Why we don’t go inside the model?</p>
+<p class="v-paragraph">A Temporal Transformer can only guess what's right or wrong from an already uncertain pose sequence, some method don’t even “see the video”. Tracking can suggest where the model should look, but knowing where to look is quite different from actually seeing anything useful.</p>
+<p class="v-paragraph">So, as a Computer Vision researcher, I stop Number Analysis. I asked a different question:</p>
+<blockquote class="v-quote">“Can the model actually see that damn target?”</blockquote>
+<p class="v-paragraph">And if we can know what it sees, what it doesn’t, can we isolate the refinement space and preserve true prediction?<span class="v-paragraph__break"></span>Decoder Cross-Attention was a natural place to start. It exposes where the model attends to the visual features.</p>
+<h2 id="section-17" class="v-heading">Cross-Attention Diagnostic</h2>
+<p class="v-paragraph">I ran vanilla SAM 3D Body over 2,308 actor-frames across different visibility conditions, extracting attention from 146 Queries × 6 Layers × 8 Heads per frame.</p>
+<figure class="v-diagram" data-figure="attention-visible-occluded" style="--figure-height:628px"><div class="v-diagram__stage"><img src="../assets/media/blob-18.png" alt="Cross-Attention under visible and occluded conditions" loading="lazy"/><div class="v-diagram__empty" hidden></div></div></figure>
+<p class="v-paragraph">I built an inspection tool to identify Query-Layer-Head combinations (QLHs) with consistent anatomical behavior across these frames.  It was to turn latent attention into joint-level diagnostic signals.</p>
+<figure class="v-diagram" data-figure="diagnostic-tool" style="--figure-height:460px"><div class="v-diagram__stage"><img src="../assets/media/blob-20.png" alt="Cross-Attention Diagnostic tool" loading="lazy"/><div class="v-diagram__empty" hidden></div></div></figure>
+<p class="v-paragraph">For example, with DINOv3, Q46L3H0 consistently attends to regions around the right wrist, hand, and forearm. I compare its attention distribution with the predicted joint's position in patch-aligned crop space, then examine whether significant attention mass appears inside or outside anatomically permitted regions.</p>
+<p class="v-paragraph">I call sufficiently large, high-weight attention regions Major Residuals (MRs). Their location and spatial relationships help distinguish Concentrated, Fallback Anchor, Spatial Ambiguous, Attention Ambiguous, and Collapsed patterns.</p>
+<p class="v-paragraph">A sharp attention map can still be confidently wrong. And some apparently collapsed attention still contains useful hypotheses.<span class="v-paragraph__break"></span>So this isn't an infallible Failure Detector. It's a Cross-Attention Diagnostic.</p>
+<p class="v-paragraph">Each actor-frame-joint receives a Self-State. Usable MRs are preserved in a Hypothesis Map for reconstruction later.</p>
+<figure class="v-diagram" data-figure="attention-taxonomy" style="--figure-height:490px"><div class="v-diagram__stage"><img src="../assets/media/blob-17.png" alt="Attention Pattern Taxonomy" loading="lazy"/><div class="v-diagram__empty" hidden></div></div></figure>
+<h2 id="section-27" class="v-heading">Cross-Actor Diagnostic</h2>
+<p class="v-paragraph">Sometimes the model doesn't lose a limb. It steals one from another actor. Instead of repairing the stolen skeleton afterward, I intervene in the visual evidence available to the decoder itself.</p>
+<p class="v-paragraph">When actor bounding boxes overlap, I compare qualified attention regions QLH-to-QLH and joint-to-joint. Sufficient overlap is labeled Violated; otherwise, Separated.</p>
+<p class="v-paragraph">The current implementation examines transitions from Separated to Violated and compares attention-patch displacement between consecutive frames to determine who owns the disputed evidence: Owner or Robber.</p>
+<p class="v-paragraph">Then I ban the conflicting attention keys associated with the Owner from the Robber's decoder pass, rerun the decoder, and diagnose the updated predictions again, then provide Separated-State (It means Self-State but after rerun decoder).</p>
+<p class="v-paragraph">Actors without overlap bypass this intervention and proceed to Separated-State.</p>
+<figure class="v-diagram" data-figure="cross-actor" style="--figure-height:802px"><div class="v-diagram__stage"><img src="../assets/media/blob-19.png" alt="Cross-Actor Implementation / Decoder Intervention" loading="lazy"/><div class="v-diagram__empty" hidden></div></div></figure>
+<p class="v-paragraph"><strong class="">What works:</strong> This relatively simple mechanism already handles many of my tested heavy overlap sequences like UFC, particularly one-directional contamination with clean Separated anchors at both ends. In comparable experimental cases, it can achieve results similar to GT-mask prompting.</p>
+<p class="v-paragraph"><strong class="">What breaks:</strong> Complete identity exchanges and sustained actor entanglement can defeat frame-level ownership decisions. And if the occluding person was never processed by the decoder, there is no corresponding actor evidence to compare in the first place.</p>
+<p class="v-paragraph">I'm developing a Delay Commitment mechanism to track overlap regions and their identities across time instead of making every ownership decision frame by frame. Still under research.</p>
+<h2 id="section-37" class="v-heading">Final State Machine</h2>
+<p class="v-paragraph">Cross-Attention cannot expose every failure. A joint may look perfectly confident while the left and right limbs have quietly exchanged identities.</p>
+<p class="v-paragraph">So I added kinematic consistency checks, support-leg constraints, global anatomical reliability, and joint-connectivity assignment to detect suspicious L/R Swap phases while filtering legitimate rotations and noisy frames.</p>
+<figure class="v-diagram" data-figure="final-state-machine" style="--figure-height:719px"><div class="v-diagram__stage"><img src="../assets/media/blob-21.png" alt="Final State Machine" loading="lazy"/><div class="v-diagram__empty" hidden></div></div></figure>
+<p class="v-paragraph">The output is a Final-State for each actor-frame-joint. It determines what the reconstruction stage is allowed to touch.</p>
+<p class="v-paragraph"><strong class="v-green">Anchor:</strong> Protect it at all costs.</p>
+<p class="v-paragraph"><strong class="v-orange">Local Collapsed:</strong> Recover from trusted anchors only.</p>
+<p class="v-paragraph"><strong class="v-red">Major Collapsed:</strong> Permit attention-conditioned hypothesis reconstruction under motion and geometric constraints.</p>
+<p class="v-paragraph"><strong class="v-purple">In Swap Phase:</strong> An additional tag controlling left/right reassignment, not a license to interpolate everything. Even during a swap, an Anchor must remain at one of the two valid vanilla output positions after L/R reassignment.</p>
+<h2 id="section-46" class="v-heading">Motion Reconstruction</h2>
+<blockquote class="v-quote v-quote--soft">“Preserve what's observed. Repair what's uncertain.”</blockquote>
+<h3 class="v-subheading"><span class="v-orange">Local Collapsed:</span> Bridge the Gap</h3>
+<figure class="v-diagram" data-figure="interpolation" style="--figure-height:772px"><div class="v-diagram__stage"><img src="../assets/media/blob-23.png" alt="Interpolation / Reconstruction" loading="lazy"/><div class="v-diagram__empty" hidden></div></div></figure>
+<p class="v-paragraph">I use Cubic Hermite Spline between trusted anchors to restore continuity while leaving reliable observations alone.</p>
+<h3 class="v-subheading"><span class="v-red">Major Collapsed:</span> Recover What the Bridge Erases</h3>
+<figure class="v-diagram" data-figure="inertia-interpolation" style="--figure-height:858px"><div class="v-diagram__stage"><img src="../assets/media/blob-22.png" alt="Attention &amp; Inertia Conditioned Interpolation" loading="lazy"/><div class="v-diagram__empty" hidden></div></div></figure>
+<p class="v-paragraph">Two anchors can produce a perfectly smooth curve. Unfortunately, the actual movement between them might have been a ridiculous kick, a sudden reversal, or some other unusual pose that the curve simply deletes.</p>
+<p class="v-paragraph">Major Collapsed is not just stronger smoothing. I separate Root Motion from Articulation, estimate motion from valid anchors, then use the saved Hypothesis Map with hip, inertia, spatial, and temporal constraints to search for valid poses hidden in the latent evidence before the final regression discarded them.</p>
+<p class="v-paragraph">For In Swap Phase, I use valid pelvis vertical angular acceleration to condition paired-limb rotation, resolve L/R assignment first, then route each joint according to its underlying state.</p>
+<p class="v-paragraph"><strong class="">No valid attention hypothesis?</strong> Fall back to Cubic Hermite.</p>
+<p class="v-paragraph">That fallback can maintain continuity, but it won't magically recover an unusual pose without enough evidence.</p>
+<h3 class="v-subheading v-subheading--mhr">MHR Fitting</h3>
+<p class="v-paragraph">The reconstructed pseudo-joints still need to become a valid pose in SAM 3D Body's Momentum Human Rig (MHR) representation.</p>
+<p class="v-paragraph">I reproject them into 2D and use the native MHR IK Solver to fit the corrected keypoint constraints back into an articulated MHR pose, instead of building another heavyweight optimization pipeline.</p>
+<h2 id="section-61" class="v-heading">What Still Breaks?</h2>
+<p class="v-paragraph">The current interpolator still relies on one-dimensional scalar conditioning in parts of its hypothesis selection. Attention jitter or invalid reversals motion under threshold can survive the checks, producing residual jitter in extreme sequences, including the million-slash demo or moderated visual degrade - not enough to flag, but still a failure.</p>
+<p class="v-paragraph">It also cannot reliably detect micro-jitter when attention remains concentrated. Blindly smoothing those joints would risk destroying motion that was already correct. And when attention evidence is insufficient, Hermite fallback can preserve continuity but oversmooth the missing action. These are the failures I'm going after next.</p>
+<p class="v-paragraph">VERLIS won't stop while I can still find something that breaks it. But for now, perhaps it's time to return to the reason this whole thing started.</p>
+<p class="v-closing">Vengeance.</p>
+<h2 id="section-66" class="v-heading v-heading--explore">Explore next</h2>
+<p class="v-next">Vengeance · Main Track · Film Project</p>
+<p class="v-next">June 1, 2026 · The Day I First Installed Anaconda, Knowing Almost Nothing About Machine Learning - Story in Workshop.</p></article></main><script>
+// Browser-only preview upload. No server endpoint, no anonymous public writes.
+// IndexedDB persists large files across reloads in this browser; deploying them
+// still requires adding media files to public/media/verlis/ before the build.
+const DB='verlis-local-media-v1';const STORE='media';
+const openDB=()=>new Promise((resolve,reject)=>{
+ if(!('indexedDB' in window)){reject(new Error('IndexedDB unavailable'));return;}
+ const req=indexedDB.open(DB,1);
+ req.onupgradeneeded=()=>req.result.createObjectStore(STORE);
+ req.onerror=()=>reject(req.error);
+ req.onsuccess=()=>resolve(req.result);
+});
+async function saveBlob(key,blob){const db=await openDB();await new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(blob,key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});db.close()}
+async function readBlob(key){const db=await openDB();const result=await new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readonly');const req=tx.objectStore(STORE).get(key);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});db.close();return result}
+const urls=new Map();
+function swapSource(key,el,blob){if(urls.has(key))URL.revokeObjectURL(urls.get(key));const url=URL.createObjectURL(blob);urls.set(key,url);el.src=url;el.hidden=false;const pending=el.nextElementSibling;if(pending)pending.hidden=true;el.load?.();}
+function wireSlot(holder){const target=holder.querySelector('video,img'),pending=holder.querySelector('.v-video__pending,.v-diagram__empty');if(!target)return;
+ const key=holder.dataset.slot||holder.closest('[data-figure]')?.dataset.figure;
+ const missing=()=>{if(!urls.has(key)){target.hidden=true;if(pending)pending.hidden=false}};
+ target.addEventListener('error',missing);if(target.tagName==='IMG'&&target.complete&&!target.naturalWidth)missing();
+ if(target.tagName==='VIDEO')target.addEventListener('loadedmetadata',()=>{target.hidden=false;if(pending)pending.hidden=true});
+ 
+ readBlob(key).then(async blob=>{
+  if(!(blob instanceof Blob))return;
+  if(target.tagName!=='IMG'){swapSource(key,target,blob);return}
+  let media=blob;
+  try{
+   const {removeBlackBackground}=await import('./black-matte.js');
+   media=await removeBlackBackground(blob);
+   // Read only: no IndexedDB media writes during rendering.
+  }catch(error){console.warn('Existing diagram matte kept:',error)}
+  swapSource(key,target,media);
+ }).catch(()=>{});
+}
+document.querySelectorAll('[data-slot],.v-diagram__stage').forEach(wireSlot);
+// Warm only the footage approaching the viewport. Five videos should not
+// compete for download, decoding and GPU surfaces at initial page load.
+const footageRows=[...document.querySelectorAll('[data-footage]')];
+const readyRows=new WeakSet();
+const allVideos=[...document.querySelectorAll('.v-demo video')];
+if(typeof IntersectionObserver!=='undefined'){
+ const observer=new IntersectionObserver(entries=>{
+  for(const entry of entries){
+   if(!entry.isIntersecting||readyRows.has(entry.target))continue;
+   readyRows.add(entry.target);
+   for(const video of entry.target.querySelectorAll('video')){
+    video.preload='auto';
+    video.load();
+   }
+   observer.unobserve(entry.target);
+  }
+ },{rootMargin:'500px 0px',threshold:0});
+ footageRows.forEach(row=>observer.observe(row));
+}else footageRows.forEach(row=>row.querySelectorAll('video').forEach(v=>{v.preload='auto';v.load()}));
+for(const row of footageRows){
+ const videos=[...row.querySelectorAll('video')];
+ const play=row.querySelector('[data-row-play]');
+ const seek=row.querySelector('[data-row-seek]');
+ const timeLabel=row.querySelector('[data-row-time]');
+ const available=()=>videos.filter(v=>v.readyState>=1&&!v.error&&!v.hidden);
+ const pair=row.querySelector('.v-demo__pair');
+ const fitRow=()=>{
+  const gap=parseFloat(getComputedStyle(pair).columnGap)||0;
+  const maxWidth=pair.clientWidth||row.clientWidth;
+  if(maxWidth<=0)return;
+  const ratios=videos.map(v=>v.videoWidth>0&&v.videoHeight>0?v.videoWidth/v.videoHeight:16/9);
+  const usable=Math.max(1,maxWidth-gap*(videos.length-1));
+  const height=Math.min(560,usable/ratios.reduce((a,b)=>a+b,0));
+  pair.style.height=Math.round(height)+'px';
+  videos.forEach((v,i)=>{
+   const holder=v.closest('.v-video');
+   if(!holder)return; // During zoom the original buffered player moves to the dialog.
+   holder.style.width=(height*ratios[i]).toFixed(2)+'px';
+   holder.style.height=height.toFixed(2)+'px';
+   v.style.objectFit='contain';
+  });
+ };
+ if(typeof ResizeObserver!=='undefined')new ResizeObserver(fitRow).observe(row);
+ else window.addEventListener('resize',fitRow);
+ fitRow();
+ const clock=t=>{if(!Number.isFinite(t))return '0:00';const seconds=Math.max(0,Math.floor(t));return Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0')};
+ const duration=()=>{const ds=available().map(v=>v.duration).filter(v=>Number.isFinite(v)&&v>0);return ds.length?Math.min(...ds):0};
+ let seeking=false,preparing=false;
+ const update=()=>{
+  const active=available(),seconds=duration(),master=active[0];
+  const t=Math.min(seconds,master?.currentTime||0);
+  if(!seeking)seek.value=seconds?String(Math.round(t/seconds*1000)):'0';
+  seek.disabled=!seconds;
+  seek.style.setProperty('--seek-progress',(seconds?Math.round(Number(seek.value)/10):0)+'%');
+  timeLabel.textContent=clock(seeking?seconds*Number(seek.value)/1000:t)+' / '+clock(seconds);
+  const playing=active.some(v=>!v.paused&&!v.ended);
+  play.disabled=preparing;
+  play.textContent=preparing?'…':playing?'Ⅱ':'▶';
+  play.setAttribute('aria-label',preparing?'Preparing footage':playing?'Pause footage':'Play footage');
+ };
+ const commitSeek=()=>{
+  const d=duration();if(!d)return;
+  const t=d*Number(seek.value)/1000;
+  // Seeking every pointer event across two high-resolution decoders causes
+  // large bursts of work and dropped frames. Commit once at release instead.
+  for(const v of available()){try{if(Math.abs(v.currentTime-t)>.035)v.currentTime=Math.min(t,v.duration||t)}catch{}}
+ };
+ const previewSeek=()=>{
+  const d=duration();if(!d)return;
+  timeLabel.textContent=clock(d*Number(seek.value)/1000)+' / '+clock(d);
+  seek.style.setProperty('--seek-progress',Math.round(Number(seek.value)/10)+'%');
+ };
+ seek.addEventListener('pointerdown',()=>{seeking=true});
+ seek.addEventListener('input',()=>{seeking=true;previewSeek()});
+ seek.addEventListener('change',()=>{commitSeek();seeking=false;update()});
+ for(const e of ['pointerup','pointercancel','keyup','blur'])seek.addEventListener(e,()=>{if(!seeking)return;commitSeek();seeking=false;update()});
+ play.addEventListener('click',async()=>{
+  if(preparing)return;
+  const active=available();if(!active.length)return;
+  if(active.some(v=>!v.paused&&!v.ended)){active.forEach(v=>v.pause());update();return;}
+  // Only one comparison row may decode at a time.
+  allVideos.filter(v=>!videos.includes(v)).forEach(v=>{if(!v.paused)v.pause()});
+  preparing=true;update();
+  try{
+   videos.forEach(v=>{v.preload='auto';if(v.readyState===0)v.load()});
+   await Promise.all(active.map(v=>v.readyState>=3?Promise.resolve():new Promise(resolve=>{
+    const finish=()=>{v.removeEventListener('canplay',finish);v.removeEventListener('error',finish);resolve()};
+    v.addEventListener('canplay',finish,{once:true});v.addEventListener('error',finish,{once:true});
+    if(v.readyState>=3||v.error)finish();
+   })));
+   const good=available().filter(v=>v.readyState>=2);
+   if(!good.length)return;
+   const t=good[0].ended?0:good[0].currentTime;
+   good.forEach(v=>{v.muted=true;if(Math.abs(v.currentTime-t)>.08)try{v.currentTime=t}catch{}});
+   await Promise.allSettled(good.map(v=>v.play()));
+  }finally{preparing=false;update()}
+ });
+ videos.forEach(v=>{
+  v.addEventListener('loadedmetadata',()=>{fitRow();update()});
+  for(const e of ['durationchange','timeupdate','seeked','play','pause','ended','error','waiting','canplay'])v.addEventListener(e,update);
+ });
+ update();
+}
+// Direct copy editing: text only, preserving existing bold and colored spans.
+// Browser-local edits persist on reload; the public source is not modified.
+const INLINE_TEXT_KEY='verlis-inline-copy-v1';
+// Frozen editorial overrides verified against the 2026-11-05 browser export.
+const savedCopy={
+ "text-6": "Single-frame models can be incredibly sharp, precise when visual evidence is clear, but become fragile under uncertainty without temporal information to rescue them. Temporal Transformers have that advantage, but often end up manipulating sequences of tokens and regressing toward ugly, averaged-out solutions instead of actually looking at what happened. Sure, that might be good for MPJPE. But we're doing motion capture, and those are not the same thing. The power of a sword slash cannot be compressed into a millimeter-level error metric and call it “pass”.",
+ "text-11": "On my stress test, current VERLIS implementation show huge improvement to vanilla SAM 3D Body under catastrophic visual degrading, recover unusual pose while preserving local motion fidelity at clear frames.",
+ "text-5": "HMR methods today arguably belong to two factions: Single-Frame vs. Temporal Transformers.",
+ "text-8": "VERLIS exists for a divine purpose - Eliminate that trade-off: Temporal Consistency vs. Local Fidelity. Don't touch what was already right just because it doesn't satisfy some loss function. Just repair what's truly uncertain.",
+ "text-2": "Training-Free Latent Supervisor for Robust Human Mesh Recovery",
+ "text-4": "The Problem",
+ "text-72": "",
+ "text-73": "",
+ "text-71": "",
+ "text-65": "I reproject them into 2D and use the native MHR IK Solver to fit the corrected keypoint constraints back into an articulated MHR pose, instead of building another heavyweight optimization pipeline.",
+ "text-67": "The current interpolator still relies on one-dimensional scalar conditioning in parts of its hypothesis selection. Attention jitter or invalid reversals motion under threshold can survive the checks, producing residual jitter in extreme sequences, including the million-slash demo or moderated visual degrade - not enough to flag, but still a failure.",
+ "text-66": "What Still Breaks?",
+ "text-68": "It also cannot reliably detect micro-jitter when attention remains concentrated. Blindly smoothing those joints would risk destroying motion that was already correct. And when attention evidence is insufficient, Hermite fallback can preserve continuity but oversmooth the missing action. These are the failures I'm going after next.",
+ "text-0": "COMPUTER VISION RESEARCH",
+ "text-20": "I ran vanilla SAM 3D Body over 2,308 actor-frames across different visibility conditions, extracting attention from 146 Queries × 6 Layers × 8 Heads per frame. And visualize its Cross-Attention to inspect some Causal Behavior.",
+ "text-70": "Vengeance."
+};
+const editableRoots=document.querySelectorAll('.v-hero,.v-article');
+const textNodes=[];
+for(const root of editableRoots){
+ const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+ while(walker.nextNode()){
+   const node=walker.currentNode,parent=node.parentElement;
+   if(!node.nodeValue?.trim()||!parent?.closest('p,h1,h2,h3,blockquote'))continue;
+   if(parent.closest('.v-demo,.v-video,.v-upload,button,a,input'))continue;
+   textNodes.push(node);
+ }
+}
+textNodes.forEach((node,i)=>{
+ const key='text-'+i;
+ const span=document.createElement('span');
+ span.className='v-inline-edit';
+ span.contentEditable='false';
+ span.spellcheck=false;
+ span.dataset.copyKey=key;
+ span.textContent=Object.prototype.hasOwnProperty.call(savedCopy,key)?String(savedCopy[key]):node.nodeValue;
+ node.replaceWith(span);
+
+});
+// One lightbox for every diagram and footage. Uses the media's existing source
+// (including uploaded blob URLs), so zoom never crops or distorts the image.
+const zoomDialog=document.createElement('dialog');
+zoomDialog.className='v-zoom-dialog';
+const zoomClose=document.createElement('button');
+zoomClose.type='button';zoomClose.className='v-zoom-dialog__close';
+zoomClose.setAttribute('aria-label','Close enlarged media');zoomClose.textContent='×';
+const zoomBody=document.createElement('div');
+zoomDialog.append(zoomClose,zoomBody);document.body.append(zoomDialog);
+let activeZoomMedia=null;
+const closeZoom=()=>{zoomDialog.close()};
+zoomClose.addEventListener('click',closeZoom);
+zoomDialog.addEventListener('click',event=>{if(event.target===zoomDialog)closeZoom()});
+zoomDialog.addEventListener('close',()=>{
+ if(activeZoomMedia){
+  const {video,anchor}=activeZoomMedia;
+  video.controls=false;
+  video.classList.remove('v-zoom-dialog__media');
+  anchor.replaceWith(video);
+  activeZoomMedia=null;
+ }
+ zoomBody.replaceChildren();
+});
+document.querySelectorAll('.v-video,.v-diagram__stage').forEach(holder=>{
+ const source=holder.querySelector('video,img');
+ if(!source)return;
+ const button=document.createElement('button');button.type='button';
+ button.className='v-zoom-trigger';button.textContent='⤢';
+ button.setAttribute('aria-label',source.tagName==='VIDEO'?'Enlarge video':'Enlarge image');
+ button.setAttribute('title','Enlarge media');
+ button.addEventListener('click',()=>{
+   const url=source.currentSrc||source.getAttribute('src')||'';
+   zoomBody.replaceChildren();
+   if(!url||source.hidden){
+     const message=document.createElement('p');message.className='v-zoom-dialog__message';
+     message.textContent='Upload media to preview it here.';zoomBody.append(message);
+   }else if(source.tagName==='VIDEO'){
+     // Reuse the same buffered/decoded player to avoid a second 40 MB decoder.
+     // Otherwise opening the first VERLIS comparison can visibly stutter.
+     const anchor=document.createComment('video-lightbox-anchor');
+     source.replaceWith(anchor);
+     activeZoomMedia={video:source,anchor};
+     source.classList.add('v-zoom-dialog__media');
+     source.controls=true;
+     source.muted=true;
+     // Zoom uses one active decoder; pause the paired comparison.
+     for(const sibling of holder.closest('[data-footage]')?.querySelectorAll('video')||[]){
+      if(sibling!==source&&!sibling.paused)sibling.pause();
+     }
+     zoomBody.append(source);
+   }else{
+     const enlarged=document.createElement('img');
+     enlarged.className='v-zoom-dialog__media';enlarged.src=url;
+     enlarged.alt=source.alt||'Enlarged image';zoomBody.append(enlarged);
+   }
+   zoomDialog.showModal();
+ });
+ holder.append(button);
+});
+
+window.addEventListener('pagehide',()=>{urls.forEach(url=>URL.revokeObjectURL(url));urls.clear()});
+
+</script></body></html>

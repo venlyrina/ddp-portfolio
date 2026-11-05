@@ -1,0 +1,94 @@
+/* Perspective-mapped images must dissolve into the dust, never expose a
+   rectangular or trapezoidal photo border. The two masks are independent:
+   (1) the permanent soft image-edge feather on the whole image plane,
+   (2) one localized moving scanner mask within that feather. */
+.project-image-surface{position:absolute;inset:0;width:100%;height:100%;
+ pointer-events:none;overflow:hidden;z-index:3;isolation:isolate}
+.project-image-world{position:absolute;top:0;left:0;width:1280px;height:720px;
+ transform-origin:0 0;pointer-events:none;overflow:visible}
+.project-portal__preview.project-image-plane{
+ position:absolute!important;left:0;top:0;width:560px!important;height:400px!important;
+ margin:0;transform-origin:0 0;backface-visibility:hidden;
+ overflow:hidden!important;pointer-events:none;
+ --ghost-x:-300px;--ghost-y:-300px;--ghost-radius:115px;
+ --ghost-strength:0;--ghost-opacity:.45;--ghost-blur:4px;
+ --ghost-breath:1;--ghost-crossfade:1.35s;
+ --focus-x:50%;--focus-y:50%;--focus-radius:115px;
+ /* More aggressive feather: zero alpha BEFORE the frame's hard edges.
+    Specificity intentionally exceeds the old .project-portal__preview mask. */
+ -webkit-mask-image:radial-gradient(ellipse 69% 67% at 50% 50%,
+  #000 0%,rgba(0,0,0,.97) 22%,rgba(0,0,0,.66) 44%,
+  rgba(0,0,0,.25) 62%,transparent 86%);
+ mask-image:radial-gradient(ellipse 69% 67% at 50% 50%,
+  #000 0%,rgba(0,0,0,.97) 22%,rgba(0,0,0,.66) 44%,
+  rgba(0,0,0,.25) 62%,transparent 86%);
+}
+/* No fog/grain overlays: atmosphere comes from clean image alpha,
+   fine spectral patch gradients and a tiny glass-like refraction. */
+.project-image-plane .project-portal__ambient-image-layer{
+ position:absolute;inset:0;pointer-events:none;overflow:hidden;
+ opacity:var(--idle-thumb-opacity,.16);
+ filter:grayscale(1) contrast(1.04) brightness(.87) blur(var(--idle-thumb-blur,1.25px));
+ transform:scale(1.025);
+}
+.project-image-plane .project-portal__ambient-image-layer img,
+.project-image-plane .project-portal__ghost-image,
+.project-image-plane .project-portal__focus-image{
+ position:absolute;inset:0;width:100%;height:100%;display:block;
+ object-fit:cover;object-position:center;pointer-events:none;
+}
+.project-image-plane .project-portal__ghost-layer,
+.project-image-plane .project-portal__focus-layer{
+ position:absolute;inset:0;width:100%;height:100%;overflow:hidden;
+ pointer-events:none;
+}
+/* Radial mask controls the illuminated REGION, not whole-frame opacity.
+   The spot is smaller than the texture, with a long dissolving tail. */
+.project-image-plane .project-portal__ghost-layer{
+ opacity:var(--idle-reveal-opacity,.76);
+ filter:grayscale(1) contrast(1.08) brightness(1.03) blur(var(--ghost-blur,.9px));
+ transform:scale(var(--ghost-breath,1));
+ transform-origin:center;
+ transition:opacity .38s ease-out,transform .7s ease-out;
+ -webkit-mask-image:radial-gradient(circle var(--ghost-radius,115px)
+  at var(--ghost-x,-300px) var(--ghost-y,-300px),
+  #000 0%,rgba(0,0,0,.86) 14%,rgba(0,0,0,.45) 37%,
+  rgba(0,0,0,.12) 64%,transparent 100%);
+ mask-image:radial-gradient(circle var(--ghost-radius,115px)
+  at var(--ghost-x,-300px) var(--ghost-y,-300px),
+  #000 0%,rgba(0,0,0,.86) 14%,rgba(0,0,0,.45) 37%,
+  rgba(0,0,0,.12) 64%,transparent 100%);
+}
+/* Liquid spectral refraction: independent per-frame subpixel translations
+   on the revealed texture, not noisy SVG turbulence or a grain overlay. */
+.project-image-plane .project-portal__ghost-layer img{
+ transform:translate3d(var(--ghost-shimmer-x,0px),var(--ghost-shimmer-y,0px),0) scale(1.012);
+ will-change:transform;
+}
+.project-image-plane .project-portal__ghost-layer::after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(ellipse 26% 21% at var(--ghost-x,50%) var(--ghost-y,50%),
+ rgba(255,255,255,.15) 0%,rgba(255,255,255,.038) 55%,transparent 100%);
+ mix-blend-mode:screen;opacity:.46;
+}
+/* Idle is now the formerly hovered localized reveal: the ghost exposes
+   one distinct, feathered, monochrome patch while a dim image remains.
+   Hover switches to a full-image focus plane, WITH its outer soft-edge mask,
+   never a naked rectangle. Opacity transitions independently from scanner. */
+.project-image-plane .project-portal__focus-layer{
+ opacity:0;
+ filter:grayscale(1) contrast(1.18) brightness(1.2) blur(0px);
+ transition:opacity .58s cubic-bezier(.2,.65,.3,1);
+ -webkit-mask-image:none;
+ mask-image:none;
+}
+.project-portal__preview.project-image-plane.is-visible .project-portal__focus-layer{
+ opacity:var(--hover-thumb-opacity,1);
+}
+.project-portal__preview.project-image-plane.is-visible .project-portal__ghost-layer{
+ opacity:.14;
+}
+@media(prefers-reduced-motion:reduce){
+ .project-image-plane .project-portal__ghost-layer{opacity:.32!important}
+ .project-image-plane .project-portal__focus-layer{transition:none!important}
+}

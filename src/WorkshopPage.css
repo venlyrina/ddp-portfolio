@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@100;200;300;400&family=Azeret+Mono:wght@200;300;400&display=swap');
+.workshop-page{position:absolute;inset:0;overflow:hidden;background:transparent;color:#fff;font-family:'Jost',sans-serif;isolation:isolate}
+.workshop-cosmic-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.workshop-intro{position:absolute;z-index:3;top:15%;left:50%;transform:translateX(-50%);width:max-content;max-width:90%;text-align:center;pointer-events:none;opacity:0;transition:opacity 1.5s ease}
+.workshop-intro.is-ready{opacity:1}
+.workshop-intro.is-scrolled{opacity:0;transition:opacity .9s ease}
+.workshop-intro h1{margin:0 0 13px;font:100 clamp(18px,2.2vw,31px)/1.3 'Jost',sans-serif;letter-spacing:.29em;color:#fff}
+.workshop-intro span{position:fixed;top:calc(72vh - 15%);left:50%;transform:translateX(-50%);font:200 10px/1.3 'Azeret Mono',monospace;letter-spacing:.5em;animation:workshop-scroll-breathe 3s ease-in-out infinite}
+.workshop-intro i{position:fixed;top:calc(72vh - 15% + 30px);height:44px;width:1px;background:linear-gradient(#fff,transparent);left:50%;transform:translateX(-50%)}
+@keyframes workshop-scroll-breathe{0%,100%{opacity:.4}50%{opacity:1}}
+.workshop-timeline{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .8s ease}
+.workshop-timeline.is-awake{opacity:1}
+.workshop-world{position:absolute;left:0;width:100%;will-change:transform;pointer-events:none}
+.workshop-axis{position:absolute;top:0;left:0;display:block;overflow:visible;pointer-events:none}
+.workshop-branch{opacity:.9}
+.workshop-event{position:absolute;transform:translate(-50%,-50%);color:#fff;text-align:left;pointer-events:none;opacity:0;filter:blur(9px);transition:opacity .55s ease,filter .7s ease;will-change:opacity}
+.workshop-event.is-visible{opacity:1;filter:none}
+.workshop-event__surface{width:100%;min-height:inherit;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:24px 23px;text-align:left;border:1px solid rgba(255,255,255,.6);color:#fff;background:linear-gradient(117deg,rgba(255,255,255,.065),rgba(0,0,0,.04) 49%,rgba(255,255,255,.015));font-family:'Jost',sans-serif;clip-path:polygon(0 3%,93% 0,100% 6%,99% 93%,7% 100%,0 96%);box-shadow:inset 0 0 16px rgba(255,255,255,.06)}
+.workshop-event__surface:disabled{opacity:1;cursor:default}
+.workshop-event__year{font:200 11px 'Azeret Mono',monospace;letter-spacing:.32em}
+.workshop-event__subtitle{font:200 9px 'Azeret Mono',monospace;letter-spacing:.14em;color:rgba(255,255,255,.77)}
+.workshop-event__title{font:100 clamp(19px,2vw,28px)/1.12 'Jost',sans-serif;letter-spacing:.20em;text-transform:uppercase}
+.workshop-event__description{font:300 12px/1.55 'Jost',sans-serif;letter-spacing:.025em;color:#fff}
+.workshop-event__edit{margin-top:auto;color:#fff;font:300 9px 'Azeret Mono',monospace;letter-spacing:.2em}
+.workshop-page:has(.workshop-editor) .workshop-event.is-visible{pointer-events:auto}
+.workshop-page:has(.workshop-editor) .workshop-event__surface{cursor:pointer;pointer-events:auto}
+.workshop-scroll{position:absolute;inset:0;z-index:4;overflow:auto;overscroll-behavior:contain;scrollbar-width:none;touch-action:pan-y}
+.workshop-scroll::-webkit-scrollbar{display:none}
+.workshop-edit-button{position:absolute;z-index:12;top:18px;right:18px;padding:11px 14px;background:#000;color:#fff;border:1px solid #fff;cursor:pointer;font:300 10px 'Azeret Mono',monospace;letter-spacing:.14em}
+.workshop-editor{position:absolute;top:65px;right:16px;bottom:18px;z-index:15;width:min(402px,calc(100vw - 32px));background:rgba(0,0,0,.965);border:1px solid #fff;display:flex;flex-direction:column;color:#fff;font:300 10px 'Azeret Mono',monospace}
+.workshop-editor__header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px;border-bottom:1px solid rgba(255,255,255,.5)}
+.workshop-editor__header strong{display:block;font-size:12px;font-weight:300;letter-spacing:.1em}
+.workshop-editor__header small{display:block;margin-top:5px;letter-spacing:.15em;font-size:9px}
+.workshop-editor__header button{background:#000;border:1px solid #fff;color:#fff;font-size:21px;width:29px;height:29px;cursor:pointer}
+.workshop-editor__scroll{overflow-y:auto;min-height:0;padding:16px}
+.workshop-editor__actions{display:flex;gap:8px;margin-bottom:15px}
+.workshop-editor button:not(.workshop-event__surface){font-family:'Azeret Mono',monospace}
+.workshop-editor__actions button,.workshop-editor__events button{padding:10px;background:#000;border:1px solid rgba(255,255,255,.55);color:#fff;cursor:pointer;font-size:10px}
+.workshop-editor__actions button{flex:1}
+.workshop-editor__actions button:disabled{opacity:.3}
+.workshop-editor__events{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.workshop-editor__events button.active{background:#262626;border-color:#fff}
+.workshop-editor label{display:flex;flex-direction:column;gap:7px;margin:12px 0;letter-spacing:.13em}
+.workshop-editor input,.workshop-editor select,.workshop-editor textarea{width:100%;box-sizing:border-box;background:#080808;color:#fff;border:1px solid rgba(255,255,255,.55);padding:9px 10px;font:300 12px/1.5 'Jost',sans-serif;outline:none}
+.workshop-editor input:focus,.workshop-editor select:focus,.workshop-editor textarea:focus{border-color:#fff}
+.workshop-editor input[type=range]{padding:0;accent-color:#fff}
+.workshop-editor p{font:300 11px/1.7 'Jost',sans-serif;color:#fff}
+@media(max-width:700px){.workshop-intro h1{letter-spacing:.15em}.workshop-edit-button{right:12px;top:10px}.workshop-editor{right:10px;top:54px;bottom:12px}.workshop-event__surface{padding:14px}.workshop-event__title{font-size:19px}}
+@media(prefers-reduced-motion:reduce){.workshop-intro,.workshop-timeline,.workshop-event{transition:none!important}.workshop-intro span{animation:none}}
+
+/* When editing, portal surfaces become draggable without blocking wheel
+   gestures over the rest of the empty timeline. */
+.workshop-page:has(.workshop-editor) .workshop-scroll{z-index:1}
+.workshop-page:has(.workshop-editor) .workshop-timeline{z-index:5}
+.workshop-page:has(.workshop-editor) .workshop-event__surface{touch-action:none;cursor:grab}
+.workshop-page:has(.workshop-editor) .workshop-event__surface:active{cursor:grabbing}
+
+/* Match the HERO PORTFOLIO default: Jost weight 100, 5.6vw,
+   tracking .3em, breath and a sparse white travelling sheen. */
+.workshop-intro{top:17%;max-width:98vw}
+.workshop-intro h1{
+ position:relative;display:block;width:max-content;max-width:98vw;
+ margin:0;font:100 clamp(24px,5.6vw,101.5px)/1.1 'Jost',sans-serif;
+ letter-spacing:.30em;color:#eef0f4;white-space:nowrap;isolation:isolate;
+ animation:workshop-hero-breathe 6.4s ease-in-out infinite
+}
+.workshop-intro h1::after{
+ content:attr(data-text);position:absolute;inset:0;font:inherit;
+ letter-spacing:inherit;line-height:inherit;color:transparent;
+ background:linear-gradient(105deg,transparent 41%,rgba(255,255,255,.15) 48%,rgba(255,255,255,.96) 50%,rgba(255,255,255,.15) 52%,transparent 59%);
+ background-size:260% 100%;background-position:120% 0;
+ -webkit-background-clip:text;background-clip:text;opacity:.28;
+ animation:workshop-hero-sheen 8s linear infinite;pointer-events:none
+}
+@keyframes workshop-hero-breathe{0%,100%{filter:brightness(1)}50%{filter:brightness(1.05)}}
+@keyframes workshop-hero-sheen{0%,64%{background-position:120% 0}80%,100%{background-position:-120% 0}}
+/* The timeline is a hairline rapier. Dates are fashion-editorial ticks,
+   detached from the floating photographic/textual corridors. */
+.workshop-axis{overflow:visible}
+.workshop-markers{position:absolute;top:0;left:0;width:100%;height:0;pointer-events:none}
+.workshop-marker{position:absolute;left:50%;display:flex;align-items:center;gap:11px;
+ transform:translateY(-50%);white-space:nowrap;color:#fff}
+.workshop-marker--left{transform:translate(-100%,-50%);flex-direction:row-reverse}
+.workshop-marker__rule{width:50px;height:.65px;flex:none;background:#fff;opacity:.86}
+.workshop-marker__year{font:200 12px/1.2 'Azeret Mono',monospace;letter-spacing:.28em}
+.workshop-marker__title{font:200 11px/1.3 'Azeret Mono',monospace;letter-spacing:.17em;
+ color:#e0e0e0}
+.workshop-marker__title .project-portal__glyph{color:#d6d6d6}
+.workshop-marker__title .project-portal__glint{color:#fff}
+.workshop-portal{position:absolute;transform:translate(-50%,-50%);
+ overflow:visible;pointer-events:none;opacity:0;filter:blur(5px);
+ transition:opacity .4s ease,filter .4s ease;color:#fff;
+ font-synthesis:none;-webkit-font-smoothing:antialiased;user-select:none}
+.workshop-portal.is-visible{opacity:1;filter:none}
+.workshop-portal__dust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.workshop-portal__projected-image{position:absolute;top:0;left:0;transform-origin:0 0;pointer-events:none}
+.workshop-portal__projected-image img{display:block;width:100%;height:100%;
+ object-fit:contain;background:transparent;filter:none}
+.workshop-portal__copy{position:absolute;inset:13% 12% 23%;overflow:hidden;
+ display:flex;align-items:center;pointer-events:none}
+.workshop-portal__description{font:300 13px/1.5 'Jost',sans-serif;
+ letter-spacing:.02em;color:#fff;overflow-wrap:anywhere;margin:0;white-space:pre-wrap}
+.workshop-portal__footer{position:absolute;bottom:7%;left:12%;width:80%;
+ display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.workshop-portal__footer .project-portal__scan{font:100 20px/1.25 'Jost',sans-serif;
+ letter-spacing:.18em;color:#fff}
+.workshop-portal__footer .project-portal__glyph{color:#eee}
+.workshop-portal__footer small{font:200 8px/1.4 'Azeret Mono',monospace;
+ letter-spacing:.15em;color:#aaa}
+.workshop-portal__drag-hint{position:absolute;top:0;right:0;font:200 8px 'Azeret Mono',monospace}
+.workshop-page:has(.workshop-editor) .workshop-portal.is-visible{
+ pointer-events:auto;cursor:grab;touch-action:none}
+.workshop-page:has(.workshop-editor) .workshop-portal.is-visible:active{cursor:grabbing}
+.workshop-editor__divider{margin:24px 0 13px;border-top:1px solid #fff;
+ padding-top:18px;letter-spacing:.16em}
+@media(max-width:700px){.workshop-intro h1{font-size:clamp(18px,5.6vw,48px);letter-spacing:.19em}}
+@media(prefers-reduced-motion:reduce){
+ .workshop-intro h1,.workshop-intro h1::after{animation:none!important}
+ .workshop-portal{transition:none!important}
+}
+
+/* Timeline and media controls share the screen but remain different systems.
+   The axis itself never carries, constrains or labels a free corridor. */
+.workshop-timeline{z-index:5;pointer-events:none}
+.workshop-scroll{z-index:4}
+.workshop-markers{pointer-events:none}
+.workshop-marker{transform:translateY(-50%);flex-direction:row;align-items:flex-start;
+ gap:0;white-space:normal;pointer-events:none}
+.workshop-marker--left{transform:translate(-100%,-50%);flex-direction:row-reverse}
+.workshop-marker__rule{width:var(--marker-offset,68px);min-width:0;max-width:none;
+ background:#fff;flex:none;height:.6px;margin-top:9px}
+.workshop-marker__content{width:var(--marker-text-width,360px);min-width:0;
+ display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+ box-sizing:border-box;padding-left:12px}
+.workshop-marker--left .workshop-marker__content{align-items:flex-end;text-align:right;
+ padding-left:0;padding-right:12px}
+.workshop-marker__year{font:200 13px/1.3 'Azeret Mono',monospace;letter-spacing:.22em;
+ color:#fff}
+.workshop-marker__title{white-space:normal;display:flex;flex-wrap:wrap;max-width:100%;
+ font:200 15px/1.35 'Jost',sans-serif;letter-spacing:.18em}
+.workshop-marker__note{font:300 13px/1.7 'Jost',sans-serif;letter-spacing:.015em;
+ margin:1px 0 0;color:#fff;white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%}
+.workshop-marker__hint{font:200 8px 'Azeret Mono',monospace;letter-spacing:.12em;opacity:.6}
+.workshop-page:has(.workshop-editor) .workshop-marker{pointer-events:auto;cursor:ns-resize;
+ touch-action:none}
+.workshop-portal{transform:translate(calc(-50% + var(--portal-mx,0px)),
+ calc(-50% + var(--portal-my,0px)));pointer-events:none}
+.workshop-portal__media-button{display:block;position:absolute;inset:0;width:100%;
+ height:100%;border:0;padding:0;margin:0;color:#fff;background:transparent;
+ text-align:left;cursor:zoom-in;pointer-events:auto}
+.workshop-portal__projected-image{display:block}
+.workshop-portal__projected-image video{display:block;width:100%;height:100%;
+ object-fit:contain;background:transparent}
+.workshop-portal__expand-hint{position:absolute;right:10%;top:9%;z-index:2;
+ font:200 9px 'Azeret Mono',monospace;letter-spacing:.16em;color:#fff;
+ opacity:.7;pointer-events:none}
+.workshop-portal__media-button:hover .workshop-portal__expand-hint{opacity:1}
+.workshop-portal__copy{inset:auto;top:12%;max-height:66%;overflow:hidden}
+.workshop-editor__mode{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #555}
+.workshop-editor__mode button{background:#000;color:#fff;border:0;
+ border-right:1px solid #555;cursor:pointer;padding:15px 6px;
+ font:300 10px 'Azeret Mono',monospace;letter-spacing:.06em}
+.workshop-editor__mode button.active{background:#222;box-shadow:inset 0 -2px #fff}
+.workshop-editor__hint{font:300 12px/1.6 'Jost',sans-serif;opacity:.88;margin:0 0 17px}
+.workshop-editor__numeric{display:grid!important;grid-template-columns:1fr 1fr 76px;
+ gap:10px;align-items:center}
+.workshop-editor__numeric>span{font-size:9px;line-height:1.5;letter-spacing:.06em}
+.workshop-editor__numeric input[type=range]{min-width:0;width:100%}
+.workshop-editor__numeric input[type=number]{width:100%;min-width:0;text-align:right}
+.workshop-editor__fields textarea{resize:vertical;min-height:125px;white-space:pre-wrap}
+.workshop-editor__divider{display:flex;justify-content:space-between}
+.workshop-editor__jump{background:#000;color:#fff;border:1px solid #fff;
+ padding:10px 12px;cursor:pointer;font:300 10px 'Azeret Mono',monospace;
+ letter-spacing:.12em;margin:10px 0}
+.workshop-lightbox{position:absolute;inset:0;z-index:40;display:flex;
+ align-items:center;justify-content:center;background:rgba(0,0,0,.96);
+ padding:clamp(12px,4vw,48px)}
+.workshop-lightbox__stage{width:100%;height:100%;display:flex;min-height:0;
+ flex-direction:column;gap:14px;color:#fff}
+.workshop-lightbox__stage header{display:flex;align-items:center;
+ justify-content:space-between;gap:16px;font:200 11px 'Azeret Mono',monospace;
+ letter-spacing:.16em}
+.workshop-lightbox__stage header button{padding:11px;background:#000;
+ border:1px solid #fff;color:#fff;cursor:pointer}
+.workshop-lightbox__stage img,.workshop-lightbox__stage video{
+ flex:1;min-height:0;min-width:0;width:100%;height:100%;object-fit:contain}
+@media(max-width:650px){
+ .workshop-editor__numeric{grid-template-columns:1fr 78px}
+ .workshop-editor__numeric>span{grid-column:span 2}
+ .workshop-editor__numeric input[type=range]{grid-column:1}
+ .workshop-marker__content{max-width:55vw}
+}
+
+/* The same elliptical alpha feather as the HOME corridor thumbnail.
+   Mask the already-projected media plane, never the dust outline or title. */
+
+
+
+/* Same softly dissolving media as the home corridor, shifted upward to keep
+   the lower title/subtitle zone readable against even a bright photograph. */
+
+.workshop-portal__media-button{z-index:1}
+.workshop-portal__footer{
+ z-index:5;isolation:isolate;
+ text-shadow:0 1px 4px #000,0 0 12px rgba(0,0,0,.95);
+}
+
+.workshop-portal__footer .project-portal__glyph,
+.workshop-portal__footer small{color:rgba(255,255,255,.95)!important}
+
+/* Two-stage alpha feather: the outer ellipse removes hard image corners;
+   the vertical falloff hides any black strip already baked into the source
+   BEFORE it crosses the floating caption. No black caption backplate. */
+.workshop-portal__projected-image{
+ -webkit-mask-image:radial-gradient(ellipse 92% 94% at 50% 43%,#000 12%,rgba(0,0,0,.92) 39%,rgba(0,0,0,.65) 65%,transparent 100%);
+ mask-image:radial-gradient(ellipse 92% 94% at 50% 43%,#000 12%,rgba(0,0,0,.92) 39%,rgba(0,0,0,.65) 65%,transparent 100%);
+}
+.workshop-portal__projected-image img,
+.workshop-portal__projected-image video{
+ -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 39%,rgba(0,0,0,.86) 54%,rgba(0,0,0,.42) 68%,rgba(0,0,0,.08) 80%,transparent 91%);
+ mask-image:linear-gradient(to bottom,#000 0%,#000 39%,rgba(0,0,0,.86) 54%,rgba(0,0,0,.42) 68%,rgba(0,0,0,.08) 80%,transparent 91%);
+}
+
+/* Never punch transparent holes through Workshop photos or videos.
+   Preserve their blacks, including assets uploaded before this fix. */
+.workshop-portal__projected-image{
+ background:#000!important;opacity:1!important;filter:none!important;
+ -webkit-mask-image:none!important;mask-image:none!important;
+}
+.workshop-portal__projected-image img,
+.workshop-portal__projected-image video{
+ background:#000!important;opacity:1!important;filter:none!important;
+ -webkit-mask-image:none!important;mask-image:none!important;
+}
+
+/* Media is intentionally allowed outside its dust frame. Only the
+   viewport itself may clip it. A 2.5% peripheral feather preserves the
+   source's solid blacks across the rest of the image/video. */
+.workshop-portal,.workshop-portal__media-button,.workshop-portal__projected-image{
+ overflow:visible!important;
+}
+.workshop-portal__media-button{background:transparent!important}
+.workshop-portal__projected-image{
+ background:#000!important;
+ -webkit-mask-image:linear-gradient(to right,transparent,#000 2.5%,#000 97.5%,transparent),
+  linear-gradient(to bottom,transparent,#000 2.5%,#000 97.5%,transparent)!important;
+ mask-image:linear-gradient(to right,transparent,#000 2.5%,#000 97.5%,transparent),
+  linear-gradient(to bottom,transparent,#000 2.5%,#000 97.5%,transparent)!important;
+ -webkit-mask-composite:source-in;
+ mask-composite:intersect;
+}
+.workshop-portal__projected-image img,.workshop-portal__projected-image video{
+ -webkit-mask-image:none!important;mask-image:none!important;
+ opacity:1!important;filter:none!important;
+ object-fit:contain;
+}
+.workshop-editor,.workshop-editor__scroll{min-width:0;box-sizing:border-box}
+.workshop-editor__scroll{overflow-x:hidden}
+
+/* Rotate uploaded media around its center after removing quad homography. */
+.workshop-portal__projected-image{transform-origin:50% 50%!important}
+
+/* Free coplanar media: no forced border feather or frame clipping. */
+.workshop-portal__projected-image{transform-origin:0 0!important;
+ -webkit-mask-image:none!important;mask-image:none!important;background:transparent!important}
+.workshop-portal__projected-image img,.workshop-portal__projected-image video{background:transparent!important}
+
+/* Long-form workshop text: natural content height, never crop prose by the
+   frame's old 66% cap. The author can opt into a fixed HEIGHT in the editor. */
+.workshop-portal--text .workshop-portal__copy{
+ position:relative;inset:auto;top:auto;left:auto;
+ width:auto;max-height:none;min-height:0;
+ padding:32px 30px 14px;box-sizing:border-box;
+ overflow:visible;display:block;align-items:initial;
+}
+.workshop-portal--text .workshop-portal__description{
+ white-space:pre-wrap;overflow-wrap:break-word;
+}
+.workshop-portal--text .workshop-portal__footer{
+ position:relative;bottom:auto;left:auto;width:auto;
+ padding:8px 30px 30px;box-sizing:border-box;
+}
+.workshop-portal--text-auto-height{height:auto!important}
+.workshop-portal--text:not(.workshop-portal--text-auto-height) .workshop-portal__copy{
+ max-height:calc(100% - 85px);overflow:hidden;
+}
+
+/* Anchor the beginning of long prose at its timeline position. Otherwise
+   centering an expanding portal moves its first paragraphs off screen. */
+.workshop-portal--text-auto-height{
+ transform:translate(calc(-50% + var(--portal-mx,0px)),var(--portal-my,0px));
+}
