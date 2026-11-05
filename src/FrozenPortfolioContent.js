@@ -160,7 +160,7 @@ const frozenSnapshot={
       "manualTextWidth": true,
       "manualTextHeight": true,
       "branchY": 2080,
-      "description": "Edit this timeline entry.",
+      "description": "",
       "contentType": "text",
       "image": "",
       "yaw": 8,
